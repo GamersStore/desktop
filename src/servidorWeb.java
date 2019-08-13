@@ -96,7 +96,7 @@ class peticionWeb extends Thread
 
     public void run() // emplementamos el metodo run
     {
-        depura("Procesamos conexion");
+        depura("Procendo conexion");
         try
         {
             BufferedReader in = new BufferedReader (new InputStreamReader(scliente.getInputStream()));
@@ -154,69 +154,62 @@ class peticionWeb extends Thread
             // Ahora leemos el fichero y lo retornamos
             File mifichero = new File(sfichero) ;
             
-            if(getFileExtension(mifichero).equals(".html"))
+            if(mifichero.exists())
+            {
+                if(getFileExtension(mifichero).equals(".html"))
+                {
+                    out.println("HTTP/1.0 200 ok");
+                    out.println("Server: Luis Acxis/1.0");
+                    out.println("Date: " + new Date());
+                    out.println("Content-Type: text/html");
+                    out.println("\n");
+
+                    BufferedReader ficheroLocal = new BufferedReader(new FileReader(mifichero));
+
+                    String linea = "";
+                    do			
+                    {
+                        linea = ficheroLocal.readLine();
+                        if (linea != null )
+                        {
+                            out.print(linea);
+                        }
+                    }
+                    while (linea != null);
+                    ficheroLocal.close();
+                    depura("fin envio fichero: "+mifichero.toString());
+                    out.close();
+                }
+                else
+                {
+                    //Envio del archivo a descargar por medio del navegador web
+                }
+            }
+            else
             {
                 out.println("HTTP/1.0 200 ok");
                 out.println("Server: Luis Acxis/1.0");
                 out.println("Date: " + new Date());
                 out.println("Content-Type: text/html");
                 out.println("\n");
-                            
-                out.println("<a href=\"webMAN_MOD_1.47.20_Installer.pkg\" >webMAN_MOD_1.47.20_Installer.pkg</a>");
 
-                out.close();
-                
-                depura("Fin leer index");
+                out.print("<h1>El archivo "+mifichero.toString()+" no existe</h1>");
+
+                out.close();   
             }
-            else
-            {
-                if (mifichero.exists()) 
-                {
-                    out.println("HTTP/1.0 200 OK");
-                    out.println("Date: " + new Date());
-                    out.println("Server: Luis Acxis/1.0");
-                    //out.println("Last-Modified: Sun, 19 May 2019 05:30:07 GMT");
-                    //out.println("ETag: \"b5b100-58936e8a1b9bf\"");
-                    //out.println("Accept-Ranges: bytes");
-                    out.println("Content-Length: " + mifichero.length());
-                    out.println("Content-Type: application/octet-stream pkg");
-                    
-                    out.println("Content-disposition: attachment; filename=webMAN_MOD_1.47.20_Installer.pkg");
-                    out.println("\n");
-
-                    if(true)
-                    {
-                        BufferedReader ficheroLocal = new BufferedReader(new FileReader(mifichero));
-
-                        String linea = "";
-                        do			
-                        {
-                            linea = ficheroLocal.readLine();
-                            if (linea != null )
-                            {
-                                // sleep(500);
-                                out.print(linea);
-                            }
-                        }
-                        while (linea != null);
-                        ficheroLocal.close();
-                    }
-                    depura("fin envio fichero");
-                    out.close();
-                }  // fin de si el fiechero existe 
-                else
-                {
-                    depura("No encuentro el fichero " + mifichero.toString());	
-                    out.println("HTTP/1.0 400 ok");
-                    out.println("Archivo no encontrado");
-                    out.close();
-                }
-            }
-
         }
         catch(Exception e)
         {
-            depura("Error al retornar fichero");	
+            out.println("HTTP/1.0 200 ok");
+            out.println("Server: Luis Acxis/1.0");
+            out.println("Date: " + new Date());
+            out.println("Content-Type: text/html");
+            out.println("\n");
+
+            out.print("Error code: "+e);
+ 
+            depura("Error code: "+e);
+            out.close();
         }
     }
 
