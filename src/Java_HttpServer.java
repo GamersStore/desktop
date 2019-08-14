@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
  
@@ -54,15 +55,15 @@ public class Java_HttpServer
         @Override
         public void handle(HttpExchange he) throws IOException
         {
-            Headers headers = he.getResponseHeaders();
-            headers.add("Content-Type", "application/octet-stream pkg");
-             
             File file = new File ("webMAN_MOD_1.47.20_Installer.pkg");
             byte[] bytes  = new byte [(int)file.length()];
             
-            System.out.println(file.getAbsolutePath());
-            System.out.println("length:" + file.length());
-            System.out.println("Type:" + getFileExtension(file));
+            Headers headers = he.getResponseHeaders();
+            headers.add("Server", "Luis Acxis 1.0");
+            headers.add("Date", String.valueOf(new Date()));
+            headers.add("Type", getFileExtension(file));
+            headers.add("Content-Length", String.valueOf(file.length()));
+            headers.add("Content-Type", "application/octet-stream pkg");
              
             FileInputStream fileInputStream = new FileInputStream(file);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
