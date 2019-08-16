@@ -155,6 +155,8 @@ public class GamersLink
             if (file.length() > Integer.MAX_VALUE)
             {
                 System.out.println("Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos");
+                
+                setHttpHtmlAviso(he, "<h3>Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos</h3>");
             }
             else
             {
@@ -185,6 +187,23 @@ public class GamersLink
 
                 System.out.println("Transferencia completa");
             }
+        }
+    }
+    
+    public static void setHttpHtmlAviso(HttpExchange he, String Aviso)
+    {
+        try
+        {
+            he.sendResponseHeaders(responseCode_OK, Aviso.length());
+            
+            try (OutputStream outputStream = he.getResponseBody())
+            {
+                outputStream.write(Aviso.getBytes());
+            }
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(GamersLink.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
