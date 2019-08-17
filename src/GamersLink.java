@@ -155,42 +155,32 @@ public class GamersLink
             
             File file = new File (Nombre);
 
-            if (file.length() > Integer.MAX_VALUE)
+            byte[] bytes  = new byte [(int)file.length()];
+
+            Headers headers = he.getResponseHeaders();
+            headers.add("Server", "Luis Acxis 1.0");
+            headers.add("Date", String.valueOf(new Date()));
+            headers.add("Type", Tipo);
+            headers.add("Content-Length", String.valueOf(file.length()));
+            headers.add("Content-Type", "application/octet-stream "+Tipo);
+
+            FileInputStream fileInputStream = new FileInputStream(file);
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+            //bufferedInputStream.read(bytes, 0, bytes.length);
+
+            he.sendResponseHeaders(responseCode_OK, file.length());
+            OutputStream outputStream = he.getResponseBody();
+            //outputStream.write(bytes, 0, bytes.length);
+
+            int count;
+            while ((count = bufferedInputStream.read(bytes)) > 0)
             {
-                System.out.println("Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos");
-
-                setHttpHtmlAviso(he, "<h3>Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos</h3>");
+                outputStream.write(bytes, 0, count);
             }
-            else
-            {
-                byte[] bytes  = new byte [(int)file.length()];
 
-                Headers headers = he.getResponseHeaders();
-                headers.add("Server", "Luis Acxis 1.0");
-                headers.add("Date", String.valueOf(new Date()));
-                headers.add("Type", Tipo);
-                headers.add("Content-Length", String.valueOf(file.length()));
-                headers.add("Content-Type", "application/octet-stream "+Tipo);
+            outputStream.close();
 
-                FileInputStream fileInputStream = new FileInputStream(file);
-                BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-                //bufferedInputStream.read(bytes, 0, bytes.length);
-
-                he.sendResponseHeaders(responseCode_OK, file.length());
-                OutputStream outputStream = he.getResponseBody();
-                //outputStream.write(bytes, 0, bytes.length);
-
-                int count;
-                while ((count = bufferedInputStream.read(bytes)) > 0)
-                {
-                    outputStream.write(bytes, 0, count);
-                    outputStream.flush();
-                }
-
-                outputStream.close();
-
-                System.out.println("Transferencia completa");
-            }
+            System.out.println("Transferencia completa");
         }
     }
     
