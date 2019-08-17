@@ -8,8 +8,11 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -155,7 +158,7 @@ public class GamersLink
             if (file.length() > Integer.MAX_VALUE)
             {
                 System.out.println("Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos");
-                
+
                 setHttpHtmlAviso(he, "<h3>Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos</h3>");
             }
             else
@@ -181,6 +184,7 @@ public class GamersLink
                 while ((count = bufferedInputStream.read(bytes)) > 0)
                 {
                     outputStream.write(bytes, 0, count);
+                    outputStream.flush();
                 }
 
                 outputStream.close();
