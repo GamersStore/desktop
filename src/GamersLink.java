@@ -1,4 +1,3 @@
-import clases.FileBytes;
 import funciones.funciones;
 import listas.listas;
 
@@ -150,7 +149,7 @@ public class GamersLink
         public void handle(HttpExchange he) throws IOException
         {
             File file = new File (Nombre);
-            if (file.length() > Integer.MAX_VALUE && false)
+            if (file.length() > Integer.MAX_VALUE && false)//2147483647
             {
                 System.out.println("Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos");
 
@@ -181,22 +180,52 @@ public class GamersLink
                     he.sendResponseHeaders(responseCode_OK, file.length());
                     OutputStream outputStream = he.getResponseBody();
                     
-                    if(false)
+                    if(true)
                     {
-                        //List<FileBytes> ejemploLista = new ArrayList<FileBytes>();
-                        byte bytes[] = new byte[(int)file.length()];
+                        //int max = 1337982960 - 1000;
+                        int max = 4096;
+                        int pos = 0;
+                        while(pos < file.length())
+                        {
+                            int tamaño = 0;
+                            if(file.length() > max)
+                            {
+                                if((file.length() - pos) > max)
+                                {
+                                    tamaño = max;
+                                    pos += max;
+                                }
+                                else
+                                {
+                                    tamaño = (int)file.length() - pos;
+                                    pos += tamaño;
+                                }
+                            }
+                            else
+                            {
+                                tamaño = (int)file.length();
+                                pos = (int)file.length();
+                            }
+                            
+                            byte bytes[] = new byte[tamaño];
+                            archivo_buffered.read(bytes, 0, tamaño);
+                            outputStream.write(bytes, 0, tamaño);
+                        }
+                        //548160
                         
-                        archivo_lectura.read(bytes, 0, bytes.length);
-
-                        outputStream.write(bytes, 0, bytes.length);
+//                        byte bytes[] = new byte[];
+//                        archivo_buffered.read(bytes, 0, 274080);
+//                        outputStream.write(bytes, 0, 274080);
+//                        
+//                        byte bytes2[] = new byte[274080];
+//                        archivo_buffered.read(bytes2, 0, 274080);
+//                        outputStream.write(bytes2, 0, 274080);
                     }
                     else
                     {
-                        int byte_entrada = 0;
-                        while(byte_entrada != -1)
+                        int byte_entrada;
+                        while((byte_entrada = archivo_buffered.read()) != -1)
                         {
-                            byte_entrada = archivo_buffered.read();
-
                             outputStream.write(byte_entrada);
                         }
                     }
