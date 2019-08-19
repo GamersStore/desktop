@@ -1,3 +1,4 @@
+import clases.FileBytes;
 import funciones.funciones;
 import listas.listas;
 
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -179,27 +181,30 @@ public class GamersLink
                     he.sendResponseHeaders(responseCode_OK, file.length());
                     OutputStream outputStream = he.getResponseBody();
                     
-                    //byte bytes[] = new byte[100];
-                    //outputStream.write(bytes,0, 100);
-
-                    boolean final_arr = false;
-                    while(!final_arr)
+                    if(false)
                     {
-                        int byte_entrada = archivo_buffered.read();
-                        if(byte_entrada != -1)
+                        //List<FileBytes> ejemploLista = new ArrayList<FileBytes>();
+                        byte bytes[] = new byte[(int)file.length()];
+                        
+                        archivo_lectura.read(bytes, 0, bytes.length);
+
+                        outputStream.write(bytes, 0, bytes.length);
+                    }
+                    else
+                    {
+                        int byte_entrada = 0;
+                        while(byte_entrada != -1)
                         {
-                            //outputStream.write(byte_entrada);
+                            byte_entrada = archivo_buffered.read();
+
                             outputStream.write(byte_entrada);
                         }
-                        else
-                        {
-                            final_arr = true;
-                        }
                     }
+            
                     outputStream.close();
                     archivo_lectura.close();
                     archivo_buffered.close();
-            
+                    
                     System.out.println("Transferencia completa");
                 }
                 catch(IOException e)
