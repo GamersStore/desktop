@@ -146,41 +146,67 @@ public class GamersLink
         
         @Override
         public void handle(HttpExchange he) throws IOException
-        {               
-            if(!transfer)
-            {
-                System.out.println("Transfiriendo: "+Nombre);
-                transfer = true;
-            }
-            
+        {
             File file = new File (Nombre);
-
-            byte[] bytes  = new byte [(int)file.length()];
-
-            Headers headers = he.getResponseHeaders();
-            headers.add("Server", "Luis Acxis 1.0");
-            headers.add("Date", String.valueOf(new Date()));
-            headers.add("Type", Tipo);
-            headers.add("Content-Length", String.valueOf(file.length()));
-            headers.add("Content-Type", "application/octet-stream "+Tipo);
-
-            FileInputStream fileInputStream = new FileInputStream(file);
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-            //bufferedInputStream.read(bytes, 0, bytes.length);
-
-            he.sendResponseHeaders(responseCode_OK, file.length());
-            OutputStream outputStream = he.getResponseBody();
-            //outputStream.write(bytes, 0, bytes.length);
-
-            int count;
-            while ((count = bufferedInputStream.read(bytes)) > 0)
+            if (file.length() > Integer.MAX_VALUE && false)
             {
-                outputStream.write(bytes, 0, count);
+                System.out.println("Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos");
+
+                setHttpHtmlAviso(he, "<h3>Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos</h3>");
             }
+            else
+            {
+                try
+                {
+                    Headers headers = he.getResponseHeaders();
+                    headers.add("Server", "Luis Acxis 1.0");
+                    headers.add("Date", String.valueOf(new Date()));
+                    headers.add("Type", Tipo);
+                    headers.add("Content-Length", String.valueOf(file.length()));
+                    headers.add("Content-Type", "application/octet-stream "+Tipo);
 
-            outputStream.close();
+                    if(!transfer)
+                    {
+                        System.out.println("Transfiriendo: "+Nombre);
+                        transfer = true;
 
-            System.out.println("Transferencia completa");
+                        System.out.println("Tamaño: "+file.length());
+                    }
+
+
+                    FileInputStream archivo_lectura = new FileInputStream(file);
+                    BufferedInputStream archivo_buffered = new BufferedInputStream(archivo_lectura);
+                    he.sendResponseHeaders(responseCode_OK, file.length());
+                    OutputStream outputStream = he.getResponseBody();
+                    
+                    //byte bytes[] = new byte[100];
+                    //outputStream.write(bytes,0, 100);
+
+                    boolean final_arr = false;
+                    while(!final_arr)
+                    {
+                        int byte_entrada = archivo_buffered.read();
+                        if(byte_entrada != -1)
+                        {
+                            //outputStream.write(byte_entrada);
+                            outputStream.write(byte_entrada);
+                        }
+                        else
+                        {
+                            final_arr = true;
+                        }
+                    }
+                    outputStream.close();
+                    archivo_lectura.close();
+                    archivo_buffered.close();
+            
+                    System.out.println("Transferencia completa");
+                }
+                catch(IOException e)
+                {
+                    System.out.println("Error: "+e); 
+                }
+            }
         }
     }
     
