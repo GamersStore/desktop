@@ -14,8 +14,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -148,8 +157,8 @@ public class GamersLink
         @Override
         public void handle(HttpExchange he) throws IOException
         {
-            File file = new File (Nombre);
-            if (file.length() > Integer.MAX_VALUE && false)//2147483647
+            File archivo = new File (Nombre);
+            if (archivo.length() > Integer.MAX_VALUE && false)//2147483647
             {
                 System.out.println("Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos");
 
@@ -163,7 +172,7 @@ public class GamersLink
                     headers.add("Server", "Luis Acxis 1.0");
                     headers.add("Date", String.valueOf(new Date()));
                     headers.add("Type", Tipo);
-                    headers.add("Content-Length", String.valueOf(file.length()));
+                    headers.add("Content-Length", String.valueOf(archivo.length()));
                     headers.add("Content-Type", "application/octet-stream "+Tipo);
 
                     if(!transfer)
@@ -171,68 +180,51 @@ public class GamersLink
                         System.out.println("Transfiriendo: "+Nombre);
                         transfer = true;
 
-                        System.out.println("Tamaño: "+file.length());
+                        System.out.println("Tamaño: "+archivo.length());
                     }
-
-
-                    FileInputStream archivo_lectura = new FileInputStream(file);
-                    BufferedInputStream archivo_buffered = new BufferedInputStream(archivo_lectura);
-                    he.sendResponseHeaders(responseCode_OK, file.length());
+                    
+//                    FileInputStream archivo_lectura = new FileInputStream(archivo);
+//                    BufferedInputStream archivo_buffered = new BufferedInputStream(archivo_lectura);
+                    he.sendResponseHeaders(responseCode_OK, archivo.length());
                     OutputStream outputStream = he.getResponseBody();
                     
-                    if(true)
-                    {
-                        //int max = 1337982960 - 1000;
-                        int max = 4096;
-                        int pos = 0;
-                        while(pos < file.length())
-                        {
-                            int tamaño = 0;
-                            if(file.length() > max)
-                            {
-                                if((file.length() - pos) > max)
-                                {
-                                    tamaño = max;
-                                    pos += max;
-                                }
-                                else
-                                {
-                                    tamaño = (int)file.length() - pos;
-                                    pos += tamaño;
-                                }
-                            }
-                            else
-                            {
-                                tamaño = (int)file.length();
-                                pos = (int)file.length();
-                            }
-                            
-                            byte bytes[] = new byte[tamaño];
-                            archivo_buffered.read(bytes, 0, tamaño);
-                            outputStream.write(bytes, 0, tamaño);
-                        }
-                        //548160
-                        
-//                        byte bytes[] = new byte[];
-//                        archivo_buffered.read(bytes, 0, 274080);
-//                        outputStream.write(bytes, 0, 274080);
-//                        
-//                        byte bytes2[] = new byte[274080];
-//                        archivo_buffered.read(bytes2, 0, 274080);
-//                        outputStream.write(bytes2, 0, 274080);
-                    }
-                    else
-                    {
-                        int byte_entrada;
-                        while((byte_entrada = archivo_buffered.read()) != -1)
-                        {
-                            outputStream.write(byte_entrada);
-                        }
-                    }
+                    Path path = archivo.toPath();
+                    Files.copy(path, outputStream);
+                    outputStream.flush();
+                    
+//                    //int max = 1337982960 - 1000;
+//                    int max = 4096;
+//                    int pos = 0;
+//                    while(pos < archivo.length())
+//                    {
+//                        int tamaño = 0;
+//                        if(archivo.length() > max)
+//                        {
+//                            if((archivo.length() - pos) > max)
+//                            {
+//                                tamaño = max;
+//                                pos += max;
+//                            }
+//                            else
+//                            {
+//                                tamaño = (int)archivo.length() - pos;
+//                                pos += tamaño;
+//                            }
+//                        }
+//                        else
+//                        {
+//                            tamaño = (int)archivo.length();
+//                            pos = (int)archivo.length();
+//                        }
+//
+//                        byte bytes[] = new byte[tamaño];
+//                        archivo_buffered.read(bytes, 0, tamaño);
+//                        outputStream.write(bytes, 0, tamaño);
+//                    }
             
                     outputStream.close();
-                    archivo_lectura.close();
-                    archivo_buffered.close();
+//                    archivo_lectura.close();
+//                    archivo_buffered.close();
                     
                     System.out.println("Transferencia completa");
                 }
