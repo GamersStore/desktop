@@ -1,8 +1,8 @@
 package jFrames;
 
 import BaseDeDatos.conexion;
+import config.User;
 import config.Config;
-import config.Init;
 import funciones.funciones;
 import java.awt.Desktop;
 import java.awt.MouseInfo;
@@ -25,8 +25,8 @@ public class login extends javax.swing.JFrame
     {
         initComponents();
 
-        Init.setIcon(this);
-        Init.center(this);
+        Config.setIcon(this);
+        Config.center(this);
         
         jT_correo.requestFocus();
     }
@@ -156,6 +156,11 @@ public class login extends javax.swing.JFrame
                 btn_entrarActionPerformed(evt);
             }
         });
+        btn_entrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn_entrarKeyPressed(evt);
+            }
+        });
         jPanel1.add(btn_entrar);
         btn_entrar.setBounds(560, 380, 110, 40);
 
@@ -240,7 +245,7 @@ public class login extends javax.swing.JFrame
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        Init.close();
+        Config.close();
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
@@ -297,11 +302,11 @@ public class login extends javax.swing.JFrame
                     int Cuenta_Id = Integer.parseInt(String.valueOf(result.getObject("Cuenta_Id")));
                     String Version_PKG = (String)result.getObject("Version_PKG");                        
 
-                    Config.setId(Id);
-                    Config.setNombre(Nombre);
-                    Config.setUsuario(Usuario);
-                    Config.setCorreo(Correo);
-                    Config.setCuenta(Cuenta_Id);
+                    User.setId(Id);
+                    User.setNombre(Nombre);
+                    User.setUsuario(Usuario);
+                    User.setCorreo(Correo);
+                    User.setCuenta(Cuenta_Id);
 
                     switch (Cuenta_Id)
                     {
@@ -347,13 +352,21 @@ public class login extends javax.swing.JFrame
             String contraseña = jP_contraseña.getText();
             if(correo.length()!=0)
             {
-                if(contraseña.length()==0)
+                if(!funciones.validarCorreo(correo))
                 {
-                    jP_contraseña.requestFocus();
+                    JOptionPane.showMessageDialog(null,"Al parecer tu correo esta mal escrito");
+                    jT_correo.setText("");
                 }
                 else
                 {
-                    btn_entrarActionPerformed(null);
+                    if(contraseña.length()==0)
+                    {
+                        jP_contraseña.requestFocus();
+                    }
+                    else
+                    {
+                        btn_entrarActionPerformed(null);
+                    }
                 }
             }
         }
@@ -377,6 +390,13 @@ public class login extends javax.swing.JFrame
             }
         }
     }//GEN-LAST:event_jP_contraseñaKeyPressed
+
+    private void btn_entrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_entrarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            btn_entrarActionPerformed(null);
+        }
+    }//GEN-LAST:event_btn_entrarKeyPressed
 
     /**
      * @param args the command line arguments

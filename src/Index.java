@@ -1,7 +1,7 @@
 
 import jFrames.login;
 import BaseDeDatos.conexion;
-import config.Init;
+import config.Config;
 import java.awt.TrayIcon;
 import static funciones.funciones.getActivo;
 import java.util.logging.Level;
@@ -15,7 +15,7 @@ public class Index
         
         if(!getActivo(1750))
         {
-            Init.addNotify("GamersStore", "La aplicacion ya se encuentra en ejecución.", TrayIcon.MessageType.INFO);
+            Config.addNotify("GamersStore", "La aplicacion ya se encuentra en ejecución.", TrayIcon.MessageType.INFO);
             System.exit(0);
         }
         else
@@ -24,7 +24,7 @@ public class Index
             conexion con = new conexion();
             if(con.conectar() == null)
             {
-                Init.addNotify("No se logro conectar con el servidor", "Verifica tu conexion a internet.\nSolo se ejecutaran las funciones Offline", TrayIcon.MessageType.WARNING);
+                Config.addNotify("No se logro conectar con el servidor", "Verifica tu conexion a internet.\nSolo se ejecutaran las funciones Offline", TrayIcon.MessageType.WARNING);
             }
             else
             {
@@ -38,7 +38,7 @@ public class Index
     {
         try
         {
-            Init.Notify();
+            Config.Notify();
         }
         catch (Exception ex)
         {

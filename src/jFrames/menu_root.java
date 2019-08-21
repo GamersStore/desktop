@@ -6,8 +6,8 @@
 package jFrames;
 
 import AppPackage.AnimationClass;
-import config.Init;
 import config.Config;
+import config.User;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import javax.swing.JOptionPane;
@@ -24,10 +24,10 @@ public class menu_root extends javax.swing.JFrame {
     public menu_root() {
         initComponents();
         
-        Init.setIcon(this);
-        Init.center(this);
+        Config.setIcon(this);
+        Config.center(this);
         
-        lbl_user.setText(Config.getUsuario());
+        lbl_user.setText(User.getUsuario());
     }
 
     /**
@@ -169,7 +169,7 @@ public class menu_root extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        Init.close();
+        Config.close();
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void icon_GamersLinkMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseMoved
@@ -188,7 +188,7 @@ public class menu_root extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel3MouseDragged
 
     private void icon_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_logoutMouseClicked
-        Init.close();
+        Config.close();
     }//GEN-LAST:event_icon_logoutMouseClicked
 
     private void icon_GamersLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseClicked

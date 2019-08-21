@@ -1,122 +1,107 @@
-
 package config;
 
-import java.lang.reflect.*;
+import java.awt.AWTException;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Config
 {
-    private static Config instanciaConfig = null;
+    private static Config instanciaInit = null;
     public static Config getInstance()
     {
-        if(instanciaConfig == null)
+        if(instanciaInit == null)
         {
-            instanciaConfig = new Config();
+            instanciaInit = new Config();
         }
-        return instanciaConfig;
+        return instanciaInit;
+    }
+    private static boolean config = false;
+    
+    public static void setIcon(JFrame frame)
+    {
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Luis Acxis\\Documents\\NetBeansProjects\\GamersStore\\src\\images\\LogoGS.png"));
+    }   
+    
+    public static void center(JFrame frame)
+    {
+        frame.setLocationRelativeTo(null);
     }
     
-    public static String id = "";
-    public static void setId(String id)
+    private static TrayIcon icono;
+    private static PopupMenu menu = new PopupMenu();
+    
+    public static void Notify() throws AWTException, InterruptedException
     {
-        try
+        if(config == false)
         {
-            Object u = (Object)id;
-            Field field = Config.class.getDeclaredField("id");
-            field.setAccessible(true);
-            field.set(u,id);
+            icono = new TrayIcon(Toolkit.getDefaultToolkit().getImage("C:/Users/Luis Acxis/Documents/NetBeansProjects/GamersStore/src/images/icono.png"),"GamersStore",addMenu("Salir"));
+
+            SystemTray.getSystemTray().add(icono);
+            Thread.sleep(5000);
+            
+            config = true;
         }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
-    }
-    public static String getId()
-    {
-        return id;
     }
     
-    public static String nombre = "";
-    public static void setNombre(String nombre)
+    public static void addNotify(String Titulo, String Mensaje, MessageType Tipo)
     {
-        try
+        if(false)
         {
-            Object u = (Object)nombre;
-            Field field = Config.class.getDeclaredField("nombre");
-            field.setAccessible(true);
-            field.set(u,nombre);
+            icono.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+
+                }
+            });
         }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
+        icono.displayMessage(Titulo, Mensaje, Tipo);
     }
-    public static String getNombre()
+    
+    public static PopupMenu addMenu(String Titulo)
     {
-        return nombre;
+        MenuItem subMenu = new MenuItem(Titulo);
+        subMenu.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }
+        });
+        menu.add(subMenu);
+        return menu;
     }
+    
+   public static void addOpcionGamersLinkStop()
+   {
+       MenuItem subMenu = new MenuItem("Detener GamersLink");
+        subMenu.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                System.exit(0);
+            }
+        });
+        menu.add(subMenu);
+   }
    
-    public static String usuario = "GamersStore";
-    public static void setUsuario(String usuario)
-    {
-        try
+   public static void close()
+   {
+        int dialog = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(null, "¿Desea salir?", "Salir", dialog);
+        if(result == 0)
         {
-            Object u = (Object)usuario;
-            Field field = Config.class.getDeclaredField("usuario");
-            field.setAccessible(true);
-            field.set(u,usuario);
+            System.exit(0);
         }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
-    }
-    public static String getUsuario()
-    {
-        return usuario;
-    }
-   
-    public static String correo = "";
-    public static void setCorreo(String correo)
-    {
-        try
-        {
-            Object u = (Object)correo;
-            Field field = Config.class.getDeclaredField("correo");
-            field.setAccessible(true);
-            field.set(u,correo);
-        }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
-    }
-    public static String getCorreo()
-    {
-        return correo;
-    }
-    
-    public static int cuenta_id = 0;
-    public static void setCuenta(int cuenta_id)
-    {
-        try
-        {
-            Object u = (Object)cuenta_id;
-            Field field = Config.class.getDeclaredField("cuenta_id");
-            field.setAccessible(true);
-            field.set(u,cuenta_id);
-        }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
-    }
-    public static int getCuenta()
-    {
-        return cuenta_id;
-    }
+   }
 }
