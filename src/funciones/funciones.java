@@ -7,24 +7,23 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import javax.lang.model.element.Element;
-import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class funciones
 {
@@ -395,6 +394,65 @@ public class funciones
             Logger.getLogger(funciones.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public static boolean getActivo(int puerto)
+    {
+        try
+        {
+            ServerSocket SERVER_SOCKETE = new ServerSocket(puerto);
+            return true;
+        }
+        catch (IOException x)
+        {
+            return false;
+        }
+    } 
+    
+    public static boolean validarCorreo(String correo)
+    {
+        Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(correo);
+        return matcher.find();
+    }
+    
+    public static String MD5(String md5)
+    {
+        try
+        {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i)
+            {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        }
+        catch (java.security.NoSuchAlgorithmException e)
+        {
+            
+        }
+        return null;
+    }
+    
+    public static boolean verificarInternet()
+    {
+        String dirWeb = "sql181.main-hosting.eu";
+        int puerto = 80;
+        try
+        {
+            Socket s = new Socket(dirWeb, puerto);
+            if(s.isConnected())
+            {
+                return true;
+            }
+        }
+        catch (IOException ex)
+        {
+            return false;
+        }
+        return false;
     }
     
     public static String limpiaCadena(String nombre)

@@ -1,3 +1,5 @@
+package GamersLink;
+
 import funciones.funciones;
 import listas.listas;
 
@@ -7,33 +9,18 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerConfigurationException;
  
-public class GamersLink
+public class Init
 {
     static int puerto = 8080;
     static final int responseCode_OK = 200;
@@ -61,7 +48,7 @@ public class GamersLink
         }
         catch (IOException ex)
         {
-            Logger.getLogger(GamersLink.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      
@@ -158,80 +145,38 @@ public class GamersLink
         public void handle(HttpExchange he) throws IOException
         {
             File archivo = new File (Nombre);
-            if (archivo.length() > Integer.MAX_VALUE && false)//2147483647
-            {
-                System.out.println("Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos");
 
-                setHttpHtmlAviso(he, "<h3>Este archivo supera los " + Integer.MAX_VALUE + " bytes permitidos</h3>");
+            try
+            {
+                Headers headers = he.getResponseHeaders();
+                headers.add("Server", "Luis Acxis 1.0");
+                headers.add("Date", String.valueOf(new Date()));
+                headers.add("Type", Tipo);
+                headers.add("Content-Length", String.valueOf(archivo.length()));
+                headers.add("Content-Type", "application/octet-stream "+Tipo);
+
+                if(!transfer)
+                {
+                    System.out.println("Transfiriendo: "+Nombre);
+                    transfer = true;
+
+                    System.out.println("Tamaño: "+archivo.length());
+                }
+
+                he.sendResponseHeaders(responseCode_OK, archivo.length());
+                OutputStream outputStream = he.getResponseBody();
+
+                Path path = archivo.toPath();
+                Files.copy(path, outputStream);
+                outputStream.flush();
+
+                outputStream.close();
+
+                System.out.println("Transferencia completa");
             }
-            else
+            catch(IOException e)
             {
-                try
-                {
-                    Headers headers = he.getResponseHeaders();
-                    headers.add("Server", "Luis Acxis 1.0");
-                    headers.add("Date", String.valueOf(new Date()));
-                    headers.add("Type", Tipo);
-                    headers.add("Content-Length", String.valueOf(archivo.length()));
-                    headers.add("Content-Type", "application/octet-stream "+Tipo);
-
-                    if(!transfer)
-                    {
-                        System.out.println("Transfiriendo: "+Nombre);
-                        transfer = true;
-
-                        System.out.println("Tamaño: "+archivo.length());
-                    }
-                    
-//                    FileInputStream archivo_lectura = new FileInputStream(archivo);
-//                    BufferedInputStream archivo_buffered = new BufferedInputStream(archivo_lectura);
-                    he.sendResponseHeaders(responseCode_OK, archivo.length());
-                    OutputStream outputStream = he.getResponseBody();
-                    
-                    Path path = archivo.toPath();
-                    Files.copy(path, outputStream);
-                    outputStream.flush();
-                    
-//                    //int max = 1337982960 - 1000;
-//                    int max = 4096;
-//                    int pos = 0;
-//                    while(pos < archivo.length())
-//                    {
-//                        int tamaño = 0;
-//                        if(archivo.length() > max)
-//                        {
-//                            if((archivo.length() - pos) > max)
-//                            {
-//                                tamaño = max;
-//                                pos += max;
-//                            }
-//                            else
-//                            {
-//                                tamaño = (int)archivo.length() - pos;
-//                                pos += tamaño;
-//                            }
-//                        }
-//                        else
-//                        {
-//                            tamaño = (int)archivo.length();
-//                            pos = (int)archivo.length();
-//                        }
-//
-//                        byte bytes[] = new byte[tamaño];
-//                        archivo_buffered.read(bytes, 0, tamaño);
-//                        outputStream.write(bytes, 0, tamaño);
-//                    }
-            
-                    outputStream.close();
-//                    archivo_lectura.close();
-//                    archivo_buffered.close();
-                    
-                    System.out.println("Transferencia completa");
-                }
-                catch(IOException e)
-                {
-                    System.out.println("Error: "+e); 
-                }
+                System.out.println("Error: "+e); 
             }
         }
     }
@@ -249,7 +194,7 @@ public class GamersLink
         }
         catch (IOException ex)
         {
-            Logger.getLogger(GamersLink.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
