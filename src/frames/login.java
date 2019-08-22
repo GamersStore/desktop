@@ -1,8 +1,9 @@
-package jFrames;
+package frames;
 
 import BaseDeDatos.conexion;
 import config.User;
 import config.Config;
+import config.Frames;
 import funciones.funciones;
 import java.awt.Desktop;
 import java.awt.MouseInfo;
@@ -28,6 +29,8 @@ public class login extends javax.swing.JFrame
         Config.setIcon(this);
         Config.center(this);
         
+        jL_version.setText(Config.getVersion());
+        
         jT_correo.requestFocus();
     }
 
@@ -44,7 +47,7 @@ public class login extends javax.swing.JFrame
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jL_version = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jT_correo = new javax.swing.JTextField();
@@ -76,19 +79,19 @@ public class login extends javax.swing.JFrame
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("GamersStore");
 
-        jLabel8.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("1.0 Beta ");
+        jL_version.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jL_version.setForeground(new java.awt.Color(255, 255, 255));
+        jL_version.setText("1.0 Beta ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8)
+                .addComponent(jL_version)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -99,11 +102,11 @@ public class login extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
-                .addComponent(jLabel8))
+                .addComponent(jL_version))
         );
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 390, 480);
+        jPanel2.setBounds(0, 0, 370, 480);
 
         jLabel4.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
@@ -318,9 +321,9 @@ public class login extends javax.swing.JFrame
                             break;
                         default:
                             this.dispose();
-                            menu_root menu_root = new menu_root();
-                            menu_root.setVisible(true);
-                            break;       
+                            User.setLogin(true);
+                            Frames.getMenu_root().setVisible(true);
+                            break;
                     }
                 }
                 if(!row)
@@ -438,6 +441,7 @@ public class login extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_entrar;
+    private javax.swing.JLabel jL_version;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -447,7 +451,6 @@ public class login extends javax.swing.JFrame
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPasswordField jP_contraseña;
     private javax.swing.JPanel jPanel1;

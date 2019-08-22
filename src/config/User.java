@@ -15,6 +15,27 @@ public class User
         return instanciaConfig;
     }
     
+    public static boolean login = false;
+    public static void setLogin(boolean login)
+    {
+        try
+        {
+            Object u = (Object)login;
+            Field field = User.class.getDeclaredField("login");
+            field.setAccessible(true);
+            field.set(u,login);
+        }
+        catch (Exception e)
+        {
+            System.out.println("No se pudo cambiar el valor");
+            e.printStackTrace(System.out);
+        }
+    }
+    public static boolean getLogin()
+    {
+        return login;
+    }
+    
     public static String id = "";
     public static void setId(String id)
     {
