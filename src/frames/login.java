@@ -6,8 +6,6 @@ import config.Config;
 import config.Frames;
 import funciones.funciones;
 import java.awt.Desktop;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.net.URI;
 import java.sql.Connection;
@@ -28,6 +26,8 @@ public class login extends javax.swing.JFrame
 
         Config.setIcon(this);
         Config.center(this);
+        
+        Config.setControlBar(this, jP_bar, jL_minimizar, null, jL_cerrar);
         
         jL_version.setText(Config.getVersion());
         
@@ -57,9 +57,9 @@ public class login extends javax.swing.JFrame
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        jP_bar = new javax.swing.JPanel();
+        jL_cerrar = new javax.swing.JLabel();
+        jL_minimizar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicia Sesión");
@@ -189,37 +189,22 @@ public class login extends javax.swing.JFrame
         jPanel1.add(jLabel10);
         jLabel10.setBounds(490, 180, 40, 40);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
-        jPanel3.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jPanel3MouseDragged(evt);
-            }
-        });
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jP_bar.setBackground(new java.awt.Color(255, 255, 255));
+        jP_bar.setForeground(new java.awt.Color(255, 255, 255));
+        jP_bar.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        jP_bar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-close.png"))); // NOI18N
-        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 30, 50));
+        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-close.png"))); // NOI18N
+        jL_cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jP_bar.add(jL_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, 30, 50));
 
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-minimizar.png"))); // NOI18N
-        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
-            }
-        });
-        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, -1, 50));
+        jL_minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-minimizar.png"))); // NOI18N
+        jL_minimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jP_bar.add(jL_minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, -1, 50));
 
-        jPanel1.add(jPanel3);
-        jPanel3.setBounds(390, 0, 420, 50);
+        jPanel1.add(jP_bar);
+        jP_bar.setBounds(370, 0, 440, 50);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -246,14 +231,6 @@ public class login extends javax.swing.JFrame
             JOptionPane.showMessageDialog(null,e);
         }
     }//GEN-LAST:event_jLabel7MouseClicked
-
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        Config.close();
-    }//GEN-LAST:event_jLabel11MouseClicked
-
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-        this.setState(menu_root.ICONIFIED);
-    }//GEN-LAST:event_jLabel12MouseClicked
 
     private void btn_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrarActionPerformed
         
@@ -343,11 +320,6 @@ public class login extends javax.swing.JFrame
 
     private int x;
     private int y;
-    private void jPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseDragged
-        Point point = MouseInfo.getPointerInfo().getLocation();
-        setLocation((point.x - x)-500, point.y - y);
-    }//GEN-LAST:event_jPanel3MouseDragged
-
     private void jT_correoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_correoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER)
         {
@@ -441,10 +413,10 @@ public class login extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_entrar;
+    private javax.swing.JLabel jL_cerrar;
+    private javax.swing.JLabel jL_minimizar;
     private javax.swing.JLabel jL_version;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -452,10 +424,10 @@ public class login extends javax.swing.JFrame
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jP_bar;
     private javax.swing.JPasswordField jP_contraseña;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jT_correo;
     // End of variables declaration//GEN-END:variables
 }

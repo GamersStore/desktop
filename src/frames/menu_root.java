@@ -8,9 +8,6 @@ package frames;
 import AppPackage.AnimationClass;
 import config.Config;
 import config.User;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +23,8 @@ public class menu_root extends javax.swing.JFrame {
         
         Config.setIcon(this);
         Config.center(this);
+        
+        Config.setControlBar(this, jP_bar, jL_minimizar, null, jL_cerrar);
         
         lbl_user.setText(User.getUsuario());
     }
@@ -47,9 +46,9 @@ public class menu_root extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         icon_GamersLink = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jP_bar = new javax.swing.JPanel();
+        jL_cerrar = new javax.swing.JLabel();
+        jL_minimizar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -122,36 +121,21 @@ public class menu_root extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 520, 350));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
-        jPanel3.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jPanel3MouseDragged(evt);
-            }
-        });
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jP_bar.setBackground(new java.awt.Color(255, 255, 255));
+        jP_bar.setForeground(new java.awt.Color(255, 255, 255));
+        jP_bar.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        jP_bar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-close.png"))); // NOI18N
-        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
-        });
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, 30, 50));
+        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-close.png"))); // NOI18N
+        jL_cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jP_bar.add(jL_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, 30, 50));
 
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-minimizar.png"))); // NOI18N
-        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, -1, 50));
+        jL_minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-minimizar.png"))); // NOI18N
+        jL_minimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jP_bar.add(jL_minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, -1, 50));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
+        getContentPane().add(jP_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 520, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -164,14 +148,6 @@ public class menu_root extends javax.swing.JFrame {
         logoutL.jLabelXLeft(10, -40, 10, 5, icon_logout);
     }//GEN-LAST:event_jLabel5MouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        this.setState(menu_root.ICONIFIED);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        Config.close();
-    }//GEN-LAST:event_jLabel6MouseClicked
-
     private void icon_GamersLinkMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseMoved
         icon_GamersLink.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153,153,153)));
     }//GEN-LAST:event_icon_GamersLinkMouseMoved
@@ -182,11 +158,6 @@ public class menu_root extends javax.swing.JFrame {
 
     private int x;
     private int y;
-    private void jPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseDragged
-        Point point = MouseInfo.getPointerInfo().getLocation();
-        setLocation((point.x - x)-500, point.y - y);
-    }//GEN-LAST:event_jPanel3MouseDragged
-
     private void icon_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_logoutMouseClicked
         Config.close();
     }//GEN-LAST:event_icon_logoutMouseClicked
@@ -233,14 +204,14 @@ public class menu_root extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel icon_GamersLink;
     private javax.swing.JLabel icon_logout;
+    private javax.swing.JLabel jL_cerrar;
+    private javax.swing.JLabel jL_minimizar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jP_bar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lbl_user;
     // End of variables declaration//GEN-END:variables
 }

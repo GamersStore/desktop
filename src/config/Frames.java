@@ -18,8 +18,8 @@ public class Frames
         return instanciaFrames;
     }
     
-    static login loginF = new login();
-    public static JFrame login = loginF;
+    private static boolean instanciaLogin = false;
+    public static JFrame login = null;
     public static void setLogin(JFrame login)
     {
         try
@@ -37,11 +37,17 @@ public class Frames
     }
     public static JFrame getLogin()
     {
+        if(instanciaLogin == false)
+        {
+            instanciaLogin = true;
+            login = new login();
+            return login;
+        }
         return login;
     }
     
-    static menu_root menu_rootF = new menu_root();
-    public static JFrame menu_root = menu_rootF;
+    private static boolean instanciaMenu_root = false;
+    public static JFrame menu_root = null;
     public static void setMenu_root(JFrame menu_root)
     {
         try
@@ -59,6 +65,12 @@ public class Frames
     }
     public static JFrame getMenu_root()
     {
+        if(instanciaMenu_root == false)
+        {
+            instanciaMenu_root = true;
+            menu_root = new menu_root();
+            return menu_root;
+        }
         return menu_root;
     }
 }
