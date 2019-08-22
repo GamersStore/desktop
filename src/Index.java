@@ -16,8 +16,6 @@ public class Index
 {   
     public static void main(String args[]) throws Exception
     {   
-        loadInit();
-        
         if(!getActivo(1750))
         {
             Config.addNotify("GamersStore", "La aplicacion ya se encuentra en ejecución.", TrayIcon.MessageType.INFO);
@@ -63,19 +61,6 @@ public class Index
                 
                 Frames.getLogin().setVisible(true);
             }
-        }
-    }
-    
-    public static void loadInit()
-    {
-        try
-        {
-            Config.setVersionCompilacion(1);
-            Config.Notify();
-        }
-        catch (Exception ex)
-        {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -1,5 +1,6 @@
 package config;
 
+import GamersLink.Init;
 import java.awt.AWTException;
 import java.awt.MenuItem;
 import java.awt.MouseInfo;
@@ -12,6 +13,8 @@ import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +28,13 @@ public class Config
         if(instanciaInit == null)
         {
             instanciaInit = new Config();
+            try {
+                instanciaInit.Notify();
+            } catch (AWTException ex) {
+                Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return instanciaInit;
     }
@@ -32,7 +42,7 @@ public class Config
     
     public static void setIcon(JFrame frame)
     {
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Luis Acxis\\Documents\\NetBeansProjects\\GamersStore\\src\\images\\LogoGS.png"));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Config.getInstance().getClass().getResource("/images/LogoGS.png")));
     }
     
     public static void center(JFrame frame)
@@ -147,7 +157,7 @@ public class Config
     {
         if(config == false)
         {
-            icono = new TrayIcon(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Luis Acxis\\Documents\\NetBeansProjects\\GamersStore\\src\\images\\icon-LogoGSMin.png"),"GamersStore",addMenu("Salir"));
+            icono = new TrayIcon(Toolkit.getDefaultToolkit().getImage(Config.getInstance().getClass().getResource("/images/icon-LogoGSMin.png")),"GamersStore",addMenuSalir());
 
             SystemTray.getSystemTray().add(icono);
             icono.addActionListener(new ActionListener()
@@ -199,10 +209,11 @@ public class Config
         icono.displayMessage(Titulo, Mensaje, Tipo);
     }
     
-    public static PopupMenu addMenu(String Titulo)
+    static MenuItem subMenuSalir = null;
+    public static PopupMenu addMenuSalir()
     {
-        MenuItem subMenu = new MenuItem(Titulo);
-        subMenu.addActionListener(new ActionListener()
+        subMenuSalir = new MenuItem("Salir");
+        subMenuSalir.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -210,23 +221,33 @@ public class Config
                 close();
             }
         });
-        menu.add(subMenu);
+        menu.add(subMenuSalir);
         return menu;
     }
+    public static void removeMenuSalir()
+    {
+        menu.remove(subMenuSalir);
+    }
     
-   public static void addOpcionGamersLinkStop()
-   {
-       MenuItem subMenu = new MenuItem("Detener GamersLink");
-        subMenu.addActionListener(new ActionListener()
+    static MenuItem stopGamersLink = null;
+    public static void addMenuGamersLinkStop()
+    {
+        stopGamersLink  = new MenuItem("Detener GamersLink");
+        stopGamersLink.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                System.exit(0);
+                closeGamersLink();
             }
         });
-        menu.add(subMenu);
-   }
+        menu.add(stopGamersLink);
+    }
+
+    public static void removeMenuGamersLinkStop()
+    {
+        menu.remove(stopGamersLink);
+    }
    
     public static String version = "1.0.0";
     public static void setVersion(String version)
@@ -278,5 +299,28 @@ public class Config
         {
             System.exit(0);
         }
+   }
+   
+   public static boolean closeGamersLink()
+   {
+        int dialog = JOptionPane.YES_NO_OPTION;
+        int result = JOptionPane.showConfirmDialog(null, "Al detener GamersLink todas las transferencias seran canceladas ¿Continuar?", "Salir", dialog);
+        if(result == 0)
+        {
+            if(Init.getStatus())
+            {
+                if(Init.stop())
+                {
+                    Config.addNotify("GamersLink", "Servidor Detenido.", TrayIcon.MessageType.INFO);
+                    Frames.getGamersLink().icon_power.setIcon(new javax.swing.ImageIcon(Frames.getGamersLink().getClass().getResource("/images/icon-power-off-32x32.png")));
+                    Frames.getGamersLink().modelo.setRowCount(0);   
+                    Frames.getGamersLink().jL_files.setText("");
+                    removeMenuGamersLinkStop();
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
    }
 }

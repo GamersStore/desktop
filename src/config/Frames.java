@@ -1,5 +1,6 @@
 package config;
 
+import GamersLink.GamersLink;
 import frames.login;
 import frames.menu_root;
 import java.lang.reflect.Field;
@@ -19,7 +20,7 @@ public class Frames
     }
     
     private static boolean instanciaLogin = false;
-    public static JFrame login = null;
+    public static login login = null;
     public static void setLogin(JFrame login)
     {
         try
@@ -35,7 +36,7 @@ public class Frames
             e.printStackTrace(System.out);
         }
     }
-    public static JFrame getLogin()
+    public static login getLogin()
     {
         if(instanciaLogin == false)
         {
@@ -47,7 +48,7 @@ public class Frames
     }
     
     private static boolean instanciaMenu_root = false;
-    public static JFrame menu_root = null;
+    public static menu_root menu_root = null;
     public static void setMenu_root(JFrame menu_root)
     {
         try
@@ -63,7 +64,7 @@ public class Frames
             e.printStackTrace(System.out);
         }
     }
-    public static JFrame getMenu_root()
+    public static menu_root getMenu_root()
     {
         if(instanciaMenu_root == false)
         {
@@ -72,5 +73,33 @@ public class Frames
             return menu_root;
         }
         return menu_root;
+    }
+    
+    private static boolean instanciaGamersLink = false;
+    public static GamersLink GamersLink = null;
+    public static void setGamersLink(JFrame GamersLink)
+    {
+        try
+        {
+            Object u = (Object)GamersLink;
+            Field field = User.class.getDeclaredField("GamersLink");
+            field.setAccessible(true);
+            field.set(u,GamersLink);
+        }
+        catch (Exception e)
+        {
+            System.out.println("No se pudo cambiar el valor");
+            e.printStackTrace(System.out);
+        }
+    }
+    public static GamersLink getGamersLink()
+    {
+        if(instanciaGamersLink == false)
+        {
+            instanciaGamersLink = true;
+            GamersLink = new GamersLink();
+            return GamersLink;
+        }
+        return GamersLink;
     }
 }

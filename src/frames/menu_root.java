@@ -7,6 +7,7 @@ package frames;
 
 import AppPackage.AnimationClass;
 import config.Config;
+import config.Frames;
 import config.User;
 
 /**
@@ -41,7 +42,7 @@ public class menu_root extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lbl_user = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jL_menu = new javax.swing.JLabel();
         icon_logout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         icon_GamersLink = new javax.swing.JLabel();
@@ -70,15 +71,15 @@ public class menu_root extends javax.swing.JFrame {
         lbl_user.setText("User");
         jPanel1.add(lbl_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 300, 40));
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-menu.png"))); // NOI18N
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        jL_menu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jL_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-menu.png"))); // NOI18N
+        jL_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jL_menu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                jL_menuMouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
+        jPanel1.add(jL_menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
         icon_logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-logout.png"))); // NOI18N
         icon_logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -140,13 +141,13 @@ public class menu_root extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void jL_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_menuMouseClicked
         AnimationClass logoutR = new AnimationClass();
         logoutR.jLabelXRight(-40, 10, 10, 5, icon_logout);
         
         AnimationClass logoutL = new AnimationClass();
         logoutL.jLabelXLeft(10, -40, 10, 5, icon_logout);
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_jL_menuMouseClicked
 
     private void icon_GamersLinkMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseMoved
         icon_GamersLink.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153,153,153)));
@@ -163,7 +164,8 @@ public class menu_root extends javax.swing.JFrame {
     }//GEN-LAST:event_icon_logoutMouseClicked
 
     private void icon_GamersLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseClicked
-        
+            this.dispose();
+            Frames.getGamersLink().setVisible(true);
     }//GEN-LAST:event_icon_GamersLinkMouseClicked
 
     /**
@@ -205,10 +207,10 @@ public class menu_root extends javax.swing.JFrame {
     private javax.swing.JLabel icon_GamersLink;
     private javax.swing.JLabel icon_logout;
     private javax.swing.JLabel jL_cerrar;
+    private javax.swing.JLabel jL_menu;
     private javax.swing.JLabel jL_minimizar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jP_bar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

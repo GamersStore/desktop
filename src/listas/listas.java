@@ -47,7 +47,7 @@ public class listas
                             archivo.length(),
                             sdf.format(archivo.lastModified()),
                             funciones.getFileExtension(archivo),
-                            funciones.getContent_id(archivo.getName())
+                            funciones.getContent_id(sCarpAct,archivo.getName())
                         )
                     );
                 }

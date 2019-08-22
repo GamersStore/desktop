@@ -60,6 +60,7 @@ public class login extends javax.swing.JFrame
         jP_bar = new javax.swing.JPanel();
         jL_cerrar = new javax.swing.JLabel();
         jL_minimizar = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicia Sesión");
@@ -169,7 +170,7 @@ public class login extends javax.swing.JFrame
 
         jLabel7.setForeground(new java.awt.Color(0, 102, 204));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Registrate en: https://gamersstore.xyz/#registrate");
+        jLabel7.setText("https://gamersstore.xyz/#registrate");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -177,7 +178,7 @@ public class login extends javax.swing.JFrame
             }
         });
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(460, 430, 310, 20);
+        jLabel7.setBounds(570, 430, 190, 20);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-Key.png"))); // NOI18N
@@ -205,6 +206,10 @@ public class login extends javax.swing.JFrame
 
         jPanel1.add(jP_bar);
         jP_bar.setBounds(370, 0, 440, 50);
+
+        jLabel1.setText("Registrate en:");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(490, 430, 80, 20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -416,6 +421,7 @@ public class login extends javax.swing.JFrame
     private javax.swing.JLabel jL_cerrar;
     private javax.swing.JLabel jL_minimizar;
     private javax.swing.JLabel jL_version;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

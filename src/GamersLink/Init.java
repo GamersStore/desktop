@@ -9,6 +9,8 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import config.Config;
+import java.awt.TrayIcon;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,46 +24,84 @@ import java.util.logging.Logger;
  
 public class Init
 {
-    static int puerto = 8080;
+    private static Init instanciaInit = null;
+    public static Init getInstance()
+    {
+        if(instanciaInit == null)
+        {
+            instanciaInit = new Init();
+        }
+        return instanciaInit;
+    }
+    
+   
     static final int responseCode_OK = 200;
+    
+    public static boolean status = false;
  
-    public static void main(String[] args)
+    public static HttpServer httpServer = null;
+    
+    public static List<infoFile> ListFiles = null;
+    
+    public static boolean start(String folder, int puerto)
     {
         try
         {
-            List<infoFile> File = listas.getFiles(System.getProperty("user.dir"));
+            List<infoFile> File = listas.getFiles(folder);
             
-            HttpServer httpServer = HttpServer.create(new InetSocketAddress(puerto), 0);
+            httpServer = HttpServer.create(new InetSocketAddress(puerto), 0);
             httpServer.createContext("/", new setHttpHtml(File));
             
             for (int i = 0; i <= File.size()-1; i++)
             {
-                httpServer.createContext("/"+File.get(i).getNombre(), new getHttpFile(File.get(i).getNombre(), File.get(i).getTamaño(), File.get(i).getTipo()));
+                httpServer.createContext("/"+File.get(i).getNombre(), new getHttpFile(folder, File.get(i).getNombre(), File.get(i).getTamaño(), File.get(i).getTipo()));
             }
             
             httpServer.setExecutor(null);
             httpServer.start();
             
-            funciones.makeXMLGamersLink(File, puerto);
+            if(File.size() > 0)
+            {
+                funciones.makeXMLGamersLink(folder, puerto, File);
+            }
             
-            System.out.println("Servidor Iniciado");
         }
         catch (IOException ex)
         {
             Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
+        status = true;
+        return true;
+    }
+    
+    public static boolean stop()
+    {
+        httpServer.stop(1);
+        status = false;
+        httpServer = null;
+        return true;
+    }
+    
+    public static boolean getStatus()
+    {
+        return status;
+    }
+    
+    public static List<infoFile> getList()
+    {
+        return ListFiles;
     }
      
     static class setHttpHtml implements HttpHandler
     {
-        private List<infoFile> File;
         
         private setHttpHtml(List<infoFile> _File)
         {
             setFile(_File);
         }
         public void setFile(List File) {
-            this.File = File;            
+            ListFiles = File;            
         }
         
         @Override
@@ -90,16 +130,16 @@ public class Init
 "	</thead>\n" +
 "	<tbody>";
             
-            for (int i = 0; i <= File.size()-1; i++)
+            for (int i = 0; i <= ListFiles.size()-1; i++)
             {
                 html +=
 "		<tr>\n" +
 "			<th scope=\"row\">"+(i+1)+"</th>\n" +
-"			<td><a href=\"/"+File.get(i).getNombre()+"\">"+File.get(i).getNombre()+"</a></td>\n" +
-"			<td>"+funciones.convertirBtoGB((long) File.get(i).getTamaño())+"</td>\n" +
-"			<td>"+File.get(i).getContent_id()+"</td>\n" +
-"			<td>"+File.get(i).getUltModificacion()+"</td>\n" +
-"			<td>"+File.get(i).getTipo()+"</td>\n" +
+"			<td><a href=\"/"+ListFiles.get(i).getNombre()+"\">"+ListFiles.get(i).getNombre()+"</a></td>\n" +
+"			<td>"+funciones.convertirBtoGB((long) ListFiles.get(i).getTamaño())+"</td>\n" +
+"			<td>"+ListFiles.get(i).getContent_id()+"</td>\n" +
+"			<td>"+ListFiles.get(i).getUltModificacion()+"</td>\n" +
+"			<td>"+ListFiles.get(i).getTipo()+"</td>\n" +
 "		</tr>";
             }
             
@@ -120,16 +160,21 @@ public class Init
      
     static class getHttpFile implements HttpHandler
     {
+        private String Folder;
         private String Nombre;
         private long Tamaño;
         private String Tipo;
         boolean transfer = false;
         
-        private getHttpFile(String _Nombre, long _Tamaño, String _Tipo)
+        private getHttpFile(String _Folder, String _Nombre, long _Tamaño, String _Tipo)
         {
+            setFolder(_Folder);
             setNombre(_Nombre);
             setTamaño(_Tamaño);
             setTipo(_Tipo);
+        }
+        public void setFolder(String Folder) {
+            this.Folder = Folder;
         }
         public void setNombre(String Nombre) {
             this.Nombre = Nombre;
@@ -144,7 +189,7 @@ public class Init
         @Override
         public void handle(HttpExchange he) throws IOException
         {
-            File archivo = new File (Nombre);
+            File archivo = new File (Folder+"/"+Nombre);
 
             try
             {
@@ -157,10 +202,8 @@ public class Init
 
                 if(!transfer)
                 {
-                    System.out.println("Transfiriendo: "+Nombre);
+                    Config.addNotify("GamersLink", "Transfiriendo: "+Nombre, TrayIcon.MessageType.INFO);
                     transfer = true;
-
-                    System.out.println("Tamaño: "+archivo.length());
                 }
 
                 he.sendResponseHeaders(responseCode_OK, archivo.length());
@@ -172,7 +215,7 @@ public class Init
 
                 outputStream.close();
 
-                System.out.println("Transferencia completa");
+                Config.addNotify("GamersLink", Nombre+" Transferido.", TrayIcon.MessageType.INFO);
             }
             catch(IOException e)
             {
