@@ -3,7 +3,6 @@ package config;
 import GamersLink.GamersLink;
 import frames.login;
 import frames.menu_root;
-import java.lang.reflect.Field;
 import javax.swing.JFrame;
 
 
@@ -19,23 +18,9 @@ public class Frames
         return instanciaFrames;
     }
     
+    // login
     private static boolean instanciaLogin = false;
     public static login login = null;
-    public static void setLogin(JFrame login)
-    {
-        try
-        {
-            Object u = (Object)login;
-            Field field = User.class.getDeclaredField("login");
-            field.setAccessible(true);
-            field.set(u,login);
-        }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
-    }
     public static login getLogin()
     {
         if(instanciaLogin == false)
@@ -46,24 +31,25 @@ public class Frames
         }
         return login;
     }
+    public static boolean getInsLogin()
+    {
+        return instanciaLogin;
+    }
+    public static void showLogin()
+    {
+        Frames.getLogin().setVisible(true);
+        int sta = Frames.getLogin().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
+        Frames.getLogin().setVisible(true);
+        Frames.getLogin().setExtendedState(sta); 
+        Frames.getLogin().setAlwaysOnTop(true); 
+        Frames.getLogin().toFront(); 
+        Frames.getLogin().requestFocus(); 
+        Frames.getLogin().setAlwaysOnTop(false);
+    }
     
+    // menu_root
     private static boolean instanciaMenu_root = false;
     public static menu_root menu_root = null;
-    public static void setMenu_root(JFrame menu_root)
-    {
-        try
-        {
-            Object u = (Object)menu_root;
-            Field field = User.class.getDeclaredField("menu_root");
-            field.setAccessible(true);
-            field.set(u,menu_root);
-        }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
-    }
     public static menu_root getMenu_root()
     {
         if(instanciaMenu_root == false)
@@ -74,24 +60,25 @@ public class Frames
         }
         return menu_root;
     }
+    public static boolean getInsMenu_root()
+    {
+        return instanciaMenu_root;
+    }
+    public static void showMenu_root()
+    {
+        Frames.getMenu_root().setVisible(true);
+        int sta = Frames.getMenu_root().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
+        Frames.getMenu_root().setVisible(true);
+        Frames.getMenu_root().setExtendedState(sta); 
+        Frames.getMenu_root().setAlwaysOnTop(true); 
+        Frames.getMenu_root().toFront(); 
+        Frames.getMenu_root().requestFocus(); 
+        Frames.getMenu_root().setAlwaysOnTop(false);
+    }
     
+    // GamersLink
     private static boolean instanciaGamersLink = false;
     public static GamersLink GamersLink = null;
-    public static void setGamersLink(JFrame GamersLink)
-    {
-        try
-        {
-            Object u = (Object)GamersLink;
-            Field field = User.class.getDeclaredField("GamersLink");
-            field.setAccessible(true);
-            field.set(u,GamersLink);
-        }
-        catch (Exception e)
-        {
-            System.out.println("No se pudo cambiar el valor");
-            e.printStackTrace(System.out);
-        }
-    }
     public static GamersLink getGamersLink()
     {
         if(instanciaGamersLink == false)
@@ -101,5 +88,20 @@ public class Frames
             return GamersLink;
         }
         return GamersLink;
+    }
+    public static boolean getInsGamersLink()
+    {
+        return instanciaGamersLink;
+    }
+    public static void showGamersLink()
+    {
+        Frames.getGamersLink().setVisible(true);
+        int sta = Frames.getGamersLink().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
+        Frames.getGamersLink().setVisible(true);
+        Frames.getGamersLink().setExtendedState(sta); 
+        Frames.getGamersLink().setAlwaysOnTop(true); 
+        Frames.getGamersLink().toFront(); 
+        Frames.getGamersLink().requestFocus(); 
+        Frames.getGamersLink().setAlwaysOnTop(false);
     }
 }

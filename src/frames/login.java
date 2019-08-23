@@ -166,10 +166,9 @@ public class login extends javax.swing.JFrame
             }
         });
         jPanel1.add(btn_entrar);
-        btn_entrar.setBounds(560, 380, 110, 40);
+        btn_entrar.setBounds(580, 380, 110, 40);
 
         jLabel7.setForeground(new java.awt.Color(0, 102, 204));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("https://gamersstore.xyz/#registrate");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -178,7 +177,7 @@ public class login extends javax.swing.JFrame
             }
         });
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(570, 430, 190, 20);
+        jLabel7.setBounds(570, 440, 210, 20);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-Key.png"))); // NOI18N
@@ -209,7 +208,7 @@ public class login extends javax.swing.JFrame
 
         jLabel1.setText("Registrate en:");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(490, 430, 80, 20);
+        jLabel1.setBounds(490, 440, 80, 20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -304,7 +303,7 @@ public class login extends javax.swing.JFrame
                         default:
                             this.dispose();
                             User.setLogin(true);
-                            Frames.getMenu_root().setVisible(true);
+                            Frames.showMenu_root();
                             break;
                     }
                 }

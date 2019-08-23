@@ -1,6 +1,7 @@
 package config;
 
 import GamersLink.Init;
+import static config.Frames.getGamersLink;
 import java.awt.AWTException;
 import java.awt.MenuItem;
 import java.awt.MouseInfo;
@@ -136,8 +137,16 @@ public class Config
     }
     
     private static void minimizar(java.awt.event.MouseEvent evt, JFrame frame)
-    {                                          
-        frame.setState(frame.ICONIFIED);
+    {                          
+        if(frame == Frames.getGamersLink() && Init.getStatus() == true)
+        {
+            frame.dispose();
+            Config.addNotify("GamersLink", "La Aplicacion se esta ejecutando en segundo plano.", TrayIcon.MessageType.INFO);
+        }
+        else
+        {
+            frame.setState(frame.ICONIFIED);
+        }
     }
     
     private static void maximizar(java.awt.event.MouseEvent evt, JFrame frame)
@@ -147,7 +156,7 @@ public class Config
     
     private static void cerrar(java.awt.event.MouseEvent evt, JFrame frame)
     {                                          
-        close();
+        close(frame);
     }
     
     private static TrayIcon icono;
@@ -166,25 +175,18 @@ public class Config
                 {
                     if(User.getLogin())
                     {
-                        Frames.getMenu_root().setVisible(true);
-                        int sta = Frames.getMenu_root().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
-                        Frames.getMenu_root().setVisible(true);
-                        Frames.getMenu_root().setExtendedState(sta); 
-                        Frames.getMenu_root().setAlwaysOnTop(true); 
-                        Frames.getMenu_root().toFront(); 
-                        Frames.getMenu_root().requestFocus(); 
-                        Frames.getMenu_root().setAlwaysOnTop(false);
-                        
+                        Frames.showMenu_root();
                     }
                     else
                     {
-                        int sta = Frames.getLogin().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
-                        Frames.getLogin().setVisible(true);
-                        Frames.getLogin().setExtendedState(sta); 
-                        Frames.getLogin().setAlwaysOnTop(true); 
-                        Frames.getLogin().toFront(); 
-                        Frames.getLogin().requestFocus(); 
-                        Frames.getLogin().setAlwaysOnTop(false); 
+                        if(Frames.getInsGamersLink() == false)
+                        {
+                            Frames.showLogin(); 
+                        }
+                        else
+                        {
+                            Frames.showGamersLink();
+                        }
                     }
                 }
             });
@@ -218,7 +220,7 @@ public class Config
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                close();
+                close(null);
             }
         });
         menu.add(subMenuSalir);
@@ -291,13 +293,28 @@ public class Config
         return versionCompilacion;
     }
     
-   public static void close()
+   public static void close(JFrame frame)
    {
-        int dialog = JOptionPane.YES_NO_OPTION;
-        int result = JOptionPane.showConfirmDialog(null, "¿Cerrar GamersStore?", "Salir", dialog);
-        if(result == 0)
+        if(frame == Frames.getLogin() && Frames.getInsGamersLink() != false && Init.getStatus())
         {
-            System.exit(0);
+            Frames.getLogin().dispose();
+            Frames.showGamersLink();
+        }
+        else
+        {
+            if(Init.getStatus())
+            {
+                JOptionPane.showMessageDialog(null,"El servicio de GamersLink se encuentra activo.\nDesactivalo antes de cerrar.");
+            }
+            else
+            {
+                int dialog = JOptionPane.YES_NO_OPTION;
+                int result = JOptionPane.showConfirmDialog(null, "¿Cerrar GamersStore?", "Salir", dialog);
+                if(result == 0)
+                {
+                    System.exit(0);
+                }
+            }
         }
    }
    

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package frames;
 
 import AppPackage.AnimationClass;
@@ -10,10 +5,6 @@ import config.Config;
 import config.Frames;
 import config.User;
 
-/**
- *
- * @author Luis Acxis
- */
 public class menu_root extends javax.swing.JFrame {
 
     /**
@@ -28,6 +19,11 @@ public class menu_root extends javax.swing.JFrame {
         Config.setControlBar(this, jP_bar, jL_minimizar, null, jL_cerrar);
         
         lbl_user.setText(User.getUsuario());
+        
+        if(!User.getLogin())
+        {
+            
+        }
     }
 
     /**
@@ -160,12 +156,12 @@ public class menu_root extends javax.swing.JFrame {
     private int x;
     private int y;
     private void icon_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_logoutMouseClicked
-        Config.close();
+        Config.close(this);
     }//GEN-LAST:event_icon_logoutMouseClicked
 
     private void icon_GamersLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseClicked
             this.dispose();
-            Frames.getGamersLink().setVisible(true);
+            Frames.showGamersLink();
     }//GEN-LAST:event_icon_GamersLinkMouseClicked
 
     /**

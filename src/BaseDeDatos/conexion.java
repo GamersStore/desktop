@@ -1,8 +1,6 @@
 package BaseDeDatos;
 
 import static funciones.funciones.verificarInternet;
-import java.io.IOException;
-import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

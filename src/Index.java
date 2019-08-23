@@ -1,5 +1,3 @@
-
-import frames.login;
 import BaseDeDatos.conexion;
 import config.Config;
 import config.Frames;
@@ -8,58 +6,108 @@ import static funciones.funciones.getActivo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 
 public class Index
 {   
     public static void main(String args[]) throws Exception
-    {   
-        if(!getActivo(1750))
+    {
+        if(args.length > 0)
         {
-            Config.addNotify("GamersStore", "La aplicacion ya se encuentra en ejecución.", TrayIcon.MessageType.INFO);
-            System.exit(0);
+            if(args[0].equals("GamersLink"))
+            {
+                if(!getActivo(1750))
+                {
+                    JOptionPane.showMessageDialog(null,"La aplicacion ya se encuentra en ejecución.");
+                    System.exit(0);
+                }
+                conexion con = new conexion();
+                if(con.conectar() == null)
+                {
+                    Frames.showGamersLink();
+                }
+                else
+                {
+                    Connection conexion = con.conectar();
+
+                    PreparedStatement select = conexion.prepareStatement
+                    (
+                        "SELECT Informacion FROM gamersstore WHERE Id = 6"
+                    );
+                    ResultSet result = select.executeQuery();
+                    while (result.next())
+                    {
+                        int VersionCompilacion = Integer.valueOf((String)result.getObject("Informacion"));
+                        if(VersionCompilacion > Config.getVersionCompilacion())
+                        {
+                            JOptionPane.showMessageDialog(null,"Actualiza GamersStore antes de continuar.");
+                            System.exit(0);
+                        }
+                    }
+
+                    select = conexion.prepareStatement
+                    (
+                        "SELECT Informacion FROM gamersstore WHERE Id = 5"
+                    );
+                    result = select.executeQuery();
+                    while (result.next())
+                    {
+                        String Version = (String)result.getObject("Informacion");
+                        Config.setVersion(Version);
+                    }
+
+                    Frames.showGamersLink();
+                }
+            }
         }
         else
-        {   
-//            config.addNotify("Iniciando", "Cargando programa", TrayIcon.MessageType.INFO);
-            conexion con = new conexion();
-            if(con.conectar() == null)
+        {
+            if(!getActivo(1750))
             {
-                Config.addNotify("No se logro conectar con el servidor", "Verifica tu conexion a internet.\nSolo se ejecutaran las funciones Offline", TrayIcon.MessageType.WARNING);
+                JOptionPane.showMessageDialog(null,"La aplicacion ya se encuentra en ejecución.");
+                System.exit(0);
             }
             else
-            {
-                Connection conexion = con.conectar();
-                
-                PreparedStatement select = conexion.prepareStatement
-                (
-                    "SELECT Informacion FROM gamersstore WHERE Id = 6"
-                );
-                ResultSet result = select.executeQuery();
-                while (result.next())
+            {   
+    //            config.addNotify("Iniciando", "Cargando programa", TrayIcon.MessageType.INFO);
+                conexion con = new conexion();
+                if(con.conectar() == null)
                 {
-                    int VersionCompilacion = Integer.valueOf((String)result.getObject("Informacion"));
-                    if(VersionCompilacion > Config.getVersionCompilacion())
+                    Config.addNotify("No se logro conectar con el servidor", "Verifica tu conexion a internet.\nSolo se ejecutaran las funciones Offline", TrayIcon.MessageType.WARNING);
+                }
+                else
+                {
+                    Connection conexion = con.conectar();
+
+                    PreparedStatement select = conexion.prepareStatement
+                    (
+                        "SELECT Informacion FROM gamersstore WHERE Id = 6"
+                    );
+                    ResultSet result = select.executeQuery();
+                    while (result.next())
                     {
-                        JOptionPane.showMessageDialog(null,"Actualiza GamersStore antes de continuar.");
-                        System.exit(0);
+                        int VersionCompilacion = Integer.valueOf((String)result.getObject("Informacion"));
+                        if(VersionCompilacion > Config.getVersionCompilacion())
+                        {
+                            JOptionPane.showMessageDialog(null,"Actualiza GamersStore antes de continuar.");
+                            System.exit(0);
+                        }
                     }
+
+                    select = conexion.prepareStatement
+                    (
+                        "SELECT Informacion FROM gamersstore WHERE Id = 5"
+                    );
+                    result = select.executeQuery();
+                    while (result.next())
+                    {
+                        String Version = (String)result.getObject("Informacion");
+                        Config.setVersion(Version);
+                    }
+
+                    Frames.showLogin();
                 }
-                
-                select = conexion.prepareStatement
-                (
-                    "SELECT Informacion FROM gamersstore WHERE Id = 5"
-                );
-                result = select.executeQuery();
-                while (result.next())
-                {
-                    String Version = (String)result.getObject("Informacion");
-                    Config.setVersion(Version);
-                }
-                
-                Frames.getLogin().setVisible(true);
             }
         }
     }

@@ -219,7 +219,7 @@ public class Init
             }
             catch(IOException e)
             {
-                System.out.println("Error: "+e); 
+                Config.addNotify("GamersLink", "El equipo remoto detuvo la descarga de "+Nombre, TrayIcon.MessageType.WARNING);
             }
         }
     }

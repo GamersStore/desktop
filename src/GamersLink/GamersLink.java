@@ -4,16 +4,14 @@ import AppPackage.AnimationClass;
 import clases.infoFile;
 import config.Config;
 import config.Frames;
+import config.User;
 import funciones.funciones;
-import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.TrayIcon;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -408,8 +406,16 @@ public class GamersLink extends javax.swing.JFrame {
     }//GEN-LAST:event_icon_powerMouseClicked
 
     private void icon_returnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_returnMouseClicked
-        this.dispose();
-        Frames.getMenu_root().setVisible(true);
+        if(User.getLogin())
+        {
+            Frames.showMenu_root();   
+            this.dispose();
+        }
+        else
+        {
+            Frames.showLogin();
+            this.dispose();
+        }
     }//GEN-LAST:event_icon_returnMouseClicked
 
     /**
