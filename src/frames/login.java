@@ -1,7 +1,5 @@
 package frames;
 
-import Animacion.*;
-
 import BaseDeDatos.conexion;
 import config.User;
 import config.Config;

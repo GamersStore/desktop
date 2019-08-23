@@ -1,6 +1,5 @@
 package config;
 
-import Animacion.Fade;
 import GamersLink.GamersLink;
 import frames.login;
 import frames.menu_root;
@@ -49,13 +48,10 @@ public class Frames
         Frames.getLogin().toFront(); 
         Frames.getLogin().requestFocus(); 
         Frames.getLogin().setAlwaysOnTop(false);
-        
-        
-        
     }
     public static void disposeLogin()
     {
-        Fade.JFrameFadeOut(1f, 0f, 0.1f, fadeOutTime, Frames.getLogin(), Fade.DISPOSE);
+        Frames.getLogin().dispose();
     }
     
     // menu_root
@@ -85,12 +81,10 @@ public class Frames
         Frames.getMenu_root().toFront(); 
         Frames.getMenu_root().requestFocus(); 
         Frames.getMenu_root().setAlwaysOnTop(false);
-        
-        Fade.JFrameFadeIn(0f, 1f, 0.1f, fadeInTime, Frames.getMenu_root());
     }
     public static void disposeMenu_root()
     {
-        Fade.JFrameFadeOut(1f, 0f, 0.1f, fadeOutTime, Frames.getMenu_root(), Fade.DISPOSE);
+        Frames.getMenu_root().dispose();
     }
     
     // GamersLink
@@ -120,11 +114,9 @@ public class Frames
         Frames.getGamersLink().toFront(); 
         Frames.getGamersLink().requestFocus(); 
         Frames.getGamersLink().setAlwaysOnTop(false);
-        
-        Fade.JFrameFadeIn(0f, 1f, 0.1f, fadeInTime, Frames.getGamersLink());
     }
     public static void disposeGamersLink()
     {
-        Fade.JFrameFadeOut(1f, 0f, 0.1f, fadeOutTime, Frames.getGamersLink(), Fade.DISPOSE);
+        Frames.getGamersLink().dispose();
     }
 }
