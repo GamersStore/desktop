@@ -60,6 +60,14 @@ public class Index
 
                     Frames.showGamersLink();
                 }
+                //Set Carpeta e Init Server
+                String folder = args[1];
+                if(folder.length()!=0)
+                {
+                    Frames.getGamersLink().folder = args[1];
+                    Frames.getGamersLink().setFolderLabel();
+                    Frames.getGamersLink().switchServer();
+                }
             }
         }
         else

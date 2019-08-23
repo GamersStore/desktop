@@ -325,15 +325,7 @@ public class Config
         {
             if(Init.getStatus())
             {
-                if(Init.stop())
-                {
-                    Config.addNotify("GamersLink", "Servidor Detenido.", TrayIcon.MessageType.INFO);
-                    Frames.getGamersLink().icon_power.setIcon(new javax.swing.ImageIcon(Frames.getGamersLink().getClass().getResource("/lib/images/icon-power-red-32x32.png")));
-                    Frames.getGamersLink().modelo.setRowCount(0);   
-                    Frames.getGamersLink().jL_files.setText("");
-                    removeMenuGamersLinkStop();
-                    return true;
-                }
+                return true;
             }
             return false;
         }

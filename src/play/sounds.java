@@ -2,10 +2,8 @@ package play;
 
 import config.Config;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,8 +13,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 
 public class sounds
 {

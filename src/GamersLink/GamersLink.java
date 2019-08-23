@@ -287,7 +287,7 @@ public class GamersLink extends javax.swing.JFrame {
         logoutL.jLabelXLeft(10, -40, 10, 5, icon_return);
     }//GEN-LAST:event_jL_menuMouseClicked
 
-    public String folder = null;
+    public static String folder = null;
     private void jL_folderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_folderMouseClicked
         if(!Init.getStatus())
         {
@@ -315,8 +315,7 @@ public class GamersLink extends javax.swing.JFrame {
 
                 folder = archivoElegido.getPath();
 
-                jL_directorio.setText(archivoElegido.getPath());
-                jL_foldername.setText(archivoElegido.getName());
+                setFolderLabel();
             }
         }
         else
@@ -325,6 +324,96 @@ public class GamersLink extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jL_folderMouseClicked
 
+    public void setFolderLabel()
+    {
+        File archivoElegido = new File(folder);
+        jL_directorio.setText(archivoElegido.getPath());
+        jL_foldername.setText(archivoElegido.getName());        
+    }
+    
+    public void switchServer()
+    {
+        if(!Init.getStatus())
+        {
+            if(Init.start(folder, 8080))
+            {
+                icon_power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-power-green-32x32.png")));
+
+                List<infoFile> ListFiles = Init.getList();
+                modelo.setRowCount(0);
+                if(ListFiles.size() > 0)
+                {
+                    boolean filesError = false;
+                    int totalFiles = 0;
+                    Object fila[];
+                    for (int i = 0; i <= ListFiles.size()-1; i++)
+                    {
+                        if(ListFiles.get(i).getTamaño() > 0)
+                        {
+                            fila = new Object[5];
+
+                            fila[0] = ListFiles.get(i).getNombre();
+                            fila[1] = funciones.convertirBtoGB((long) ListFiles.get(i).getTamaño());
+                            fila[2] = ListFiles.get(i).getContent_id();
+                            fila[3] = ListFiles.get(i).getUltModificacion();
+                            fila[4] = ListFiles.get(i).getTipo();
+
+                            modelo.addRow(fila);
+
+                            totalFiles++;
+                        }
+                        else
+                        {
+                            filesError = true;
+                        }
+                    }
+
+                    jL_files.setText(String.valueOf(totalFiles));
+
+                    Config.addNotify("GamersLink", "Servidor Iniciado.", TrayIcon.MessageType.INFO);
+                    Config.addMenuGamersLinkStop();
+                    try
+                    {
+                        String path = folder+"\\gamerslink.xml";
+                        Runtime.getRuntime().exec("explorer.exe /select," + path);
+                    }
+                    catch (IOException ex)
+                    {
+                        Logger.getLogger(GamersLink.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if(filesError)
+                    {
+                        Config.addNotify("GamersLink", "Algunos archivos fueron ignorados por tener contenido corrupto.", TrayIcon.MessageType.WARNING);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Esta carpeta no contiene archivos para instalar");
+                    jL_files.setText("0");
+                    if(Init.stop())
+                    {
+                        icon_power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-power-red-32x32.png")));
+                        modelo.setRowCount(0);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(Config.closeGamersLink())
+            {
+                if(Init.stop())
+                {
+                    Config.addNotify("GamersLink", "Servidor Detenido.", TrayIcon.MessageType.INFO);
+                    icon_power.setIcon(new javax.swing.ImageIcon(Frames.getGamersLink().getClass().getResource("/lib/images/icon-power-red-32x32.png")));
+                    modelo.setRowCount(0);   
+                    jL_files.setText("");
+                    Config.removeMenuGamersLinkStop();   
+                }
+            }
+        }
+    }
+    
     private void icon_powerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_powerMouseClicked
         if(folder == null)
         {
@@ -332,75 +421,7 @@ public class GamersLink extends javax.swing.JFrame {
         }
         else
         {
-            if(!Init.getStatus())
-            {
-                if(Init.start(folder, 8080))
-                {
-                    icon_power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-power-on-32x32.png")));
-                    
-                    List<infoFile> ListFiles = Init.getList();
-                    modelo.setRowCount(0);
-                    if(ListFiles.size() > 0)
-                    {
-                        boolean filesError = false;
-                        int totalFiles = 0;
-                        Object fila[];
-                        for (int i = 0; i <= ListFiles.size()-1; i++)
-                        {
-                            if(ListFiles.get(i).getTamaño() > 0)
-                            {
-                                fila = new Object[5];
-
-                                fila[0] = ListFiles.get(i).getNombre();
-                                fila[1] = funciones.convertirBtoGB((long) ListFiles.get(i).getTamaño());
-                                fila[2] = ListFiles.get(i).getContent_id();
-                                fila[3] = ListFiles.get(i).getUltModificacion();
-                                fila[4] = ListFiles.get(i).getTipo();
-
-                                modelo.addRow(fila);
-
-                                totalFiles++;
-                            }
-                            else
-                            {
-                                filesError = true;
-                            }
-                        }
-
-                        jL_files.setText(String.valueOf(totalFiles));
-
-                        Config.addNotify("GamersLink", "Servidor Iniciado.", TrayIcon.MessageType.INFO);
-                        Config.addMenuGamersLinkStop();
-                        try
-                        {
-                            String path = folder+"\\gamerslink.xml";
-                            Runtime.getRuntime().exec("explorer.exe /select," + path);
-                        }
-                        catch (IOException ex)
-                        {
-                            Logger.getLogger(GamersLink.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        if(filesError)
-                        {
-                            Config.addNotify("GamersLink", "Algunos archivos fueron ignorados por tener contenido corrupto.", TrayIcon.MessageType.WARNING);
-                        }
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null,"Esta carpeta no contiene archivos para instalar");
-                        jL_files.setText("0");
-                        if(Init.stop())
-                        {
-                            icon_power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-power-off-32x32.png")));
-                            modelo.setRowCount(0);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Config.closeGamersLink();
-            }
+            switchServer();
         }
     }//GEN-LAST:event_icon_powerMouseClicked
 
@@ -456,10 +477,10 @@ public class GamersLink extends javax.swing.JFrame {
     public static javax.swing.JLabel icon_power;
     private javax.swing.JLabel icon_return;
     private javax.swing.JLabel jL_cerrar;
-    private javax.swing.JLabel jL_directorio;
-    public static javax.swing.JLabel jL_files;
+    public javax.swing.JLabel jL_directorio;
+    public javax.swing.JLabel jL_files;
     private javax.swing.JLabel jL_folder;
-    private javax.swing.JLabel jL_foldername;
+    public javax.swing.JLabel jL_foldername;
     private javax.swing.JLabel jL_ip;
     private javax.swing.JLabel jL_menu;
     private javax.swing.JLabel jL_minimizar;
