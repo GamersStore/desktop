@@ -58,7 +58,7 @@ public class menu_root extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoGSWhite.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/LogoGS-White.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 300, 180));
 
         lbl_user.setFont(new java.awt.Font("Calibri", 0, 48)); // NOI18N
@@ -68,7 +68,7 @@ public class menu_root extends javax.swing.JFrame {
         jPanel1.add(lbl_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 300, 40));
 
         jL_menu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jL_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-menu.png"))); // NOI18N
+        jL_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-menu-white-32x32.png"))); // NOI18N
         jL_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jL_menu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -77,7 +77,7 @@ public class menu_root extends javax.swing.JFrame {
         });
         jPanel1.add(jL_menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 30));
 
-        icon_logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-logout.png"))); // NOI18N
+        icon_logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-logout-white-32x32.png"))); // NOI18N
         icon_logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         icon_logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -92,7 +92,7 @@ public class menu_root extends javax.swing.JFrame {
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        icon_GamersLink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-gamersLink.png"))); // NOI18N
+        icon_GamersLink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-gamersLink-primary-150x150.png"))); // NOI18N
         icon_GamersLink.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         icon_GamersLink.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -123,12 +123,12 @@ public class menu_root extends javax.swing.JFrame {
         jP_bar.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         jP_bar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-close.png"))); // NOI18N
+        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-close-gray-32x32.png"))); // NOI18N
         jL_cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jP_bar.add(jL_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, 30, 50));
 
         jL_minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-minimizar.png"))); // NOI18N
+        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-minimizar-gray-32x32.png"))); // NOI18N
         jL_minimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jP_bar.add(jL_minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, -1, 50));
 
@@ -143,6 +143,7 @@ public class menu_root extends javax.swing.JFrame {
         
         AnimationClass logoutL = new AnimationClass();
         logoutL.jLabelXLeft(10, -40, 10, 5, icon_logout);
+        
     }//GEN-LAST:event_jL_menuMouseClicked
 
     private void icon_GamersLinkMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseMoved
@@ -160,8 +161,8 @@ public class menu_root extends javax.swing.JFrame {
     }//GEN-LAST:event_icon_logoutMouseClicked
 
     private void icon_GamersLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_GamersLinkMouseClicked
-            this.dispose();
             Frames.showGamersLink();
+            Frames.disposeMenu_root();
     }//GEN-LAST:event_icon_GamersLinkMouseClicked
 
     /**

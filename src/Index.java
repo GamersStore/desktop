@@ -1,3 +1,4 @@
+import Animacion.Fade;
 import BaseDeDatos.conexion;
 import config.Config;
 import config.Frames;
@@ -6,8 +7,8 @@ import static funciones.funciones.getActivo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import play.sounds;
 
 public class Index
 {   
@@ -46,6 +47,7 @@ public class Index
                         }
                     }
 
+                    
                     select = conexion.prepareStatement
                     (
                         "SELECT Informacion FROM gamersstore WHERE Id = 5"
@@ -94,7 +96,6 @@ public class Index
                             System.exit(0);
                         }
                     }
-
                     select = conexion.prepareStatement
                     (
                         "SELECT Informacion FROM gamersstore WHERE Id = 5"
@@ -106,6 +107,7 @@ public class Index
                         Config.setVersion(Version);
                     }
 
+                    sounds.introPS1();
                     Frames.showLogin();
                 }
             }

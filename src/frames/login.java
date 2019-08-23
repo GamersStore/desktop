@@ -1,11 +1,15 @@
 package frames;
 
+import Animacion.*;
+
 import BaseDeDatos.conexion;
 import config.User;
 import config.Config;
 import config.Frames;
 import funciones.funciones;
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.net.URI;
 import java.sql.Connection;
@@ -20,10 +24,21 @@ public class login extends javax.swing.JFrame
 {
 
 
+    Dimension screenSize;
+    int xCenter, yCenter;
+    
     public login()
     {
         initComponents();
 
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        xCenter = (screenSize.width = this.getWidth()) / 2;
+        yCenter = (screenSize.height = this.getHeight()) / 2;
+        
+        this.setLocation(xCenter, yCenter);
+        
+        
+        
         Config.setIcon(this);
         Config.center(this);
         
@@ -73,7 +88,7 @@ public class login extends javax.swing.JFrame
         jPanel2.setBackground(new java.awt.Color(0, 102, 204));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoGSWhite.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/LogoGS-White.png"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -180,12 +195,12 @@ public class login extends javax.swing.JFrame
         jLabel7.setBounds(570, 440, 210, 20);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-Key.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-Key-primary-32x32.png"))); // NOI18N
         jPanel1.add(jLabel9);
         jLabel9.setBounds(490, 300, 40, 40);
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-user.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-user-primary-32x32.png"))); // NOI18N
         jPanel1.add(jLabel10);
         jLabel10.setBounds(490, 180, 40, 40);
 
@@ -194,12 +209,12 @@ public class login extends javax.swing.JFrame
         jP_bar.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         jP_bar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-close.png"))); // NOI18N
+        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-close-gray-32x32.png"))); // NOI18N
         jL_cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jP_bar.add(jL_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, 30, 50));
 
         jL_minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-minimizar.png"))); // NOI18N
+        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-minimizar-gray-32x32.png"))); // NOI18N
         jL_minimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jP_bar.add(jL_minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, -1, 50));
 
@@ -301,7 +316,7 @@ public class login extends javax.swing.JFrame
                             JOptionPane.showMessageDialog(null,"Activa tu cuenta entrando al link enviado a tu correo.");
                             break;
                         default:
-                            this.dispose();
+                            Frames.disposeLogin();
                             User.setLogin(true);
                             Frames.showMenu_root();
                             break;

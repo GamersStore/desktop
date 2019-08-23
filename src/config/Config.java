@@ -1,7 +1,6 @@
 package config;
 
 import GamersLink.Init;
-import static config.Frames.getGamersLink;
 import java.awt.AWTException;
 import java.awt.MenuItem;
 import java.awt.MouseInfo;
@@ -43,7 +42,7 @@ public class Config
     
     public static void setIcon(JFrame frame)
     {
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Config.getInstance().getClass().getResource("/images/LogoGS.png")));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Config.getInstance().getClass().getResource("/lib/images/LogoGS.png")));
     }
     
     public static void center(JFrame frame)
@@ -140,7 +139,7 @@ public class Config
     {                          
         if(frame == Frames.getGamersLink() && Init.getStatus() == true)
         {
-            frame.dispose();
+            Frames.disposeGamersLink();
             Config.addNotify("GamersLink", "La Aplicacion se esta ejecutando en segundo plano.", TrayIcon.MessageType.INFO);
         }
         else
@@ -166,7 +165,7 @@ public class Config
     {
         if(config == false)
         {
-            icono = new TrayIcon(Toolkit.getDefaultToolkit().getImage(Config.getInstance().getClass().getResource("/images/icon-LogoGSMin.png")),"GamersStore",addMenuSalir());
+            icono = new TrayIcon(Toolkit.getDefaultToolkit().getImage(Config.getInstance().getClass().getResource("/lib/images/icon-LogoGS-color-18x12.png")),"GamersStore",addMenuSalir());
 
             SystemTray.getSystemTray().add(icono);
             icono.addActionListener(new ActionListener()
@@ -297,7 +296,7 @@ public class Config
    {
         if(frame == Frames.getLogin() && Frames.getInsGamersLink() != false && Init.getStatus())
         {
-            Frames.getLogin().dispose();
+            Frames.disposeLogin();
             Frames.showGamersLink();
         }
         else
@@ -329,7 +328,7 @@ public class Config
                 if(Init.stop())
                 {
                     Config.addNotify("GamersLink", "Servidor Detenido.", TrayIcon.MessageType.INFO);
-                    Frames.getGamersLink().icon_power.setIcon(new javax.swing.ImageIcon(Frames.getGamersLink().getClass().getResource("/images/icon-power-off-32x32.png")));
+                    Frames.getGamersLink().icon_power.setIcon(new javax.swing.ImageIcon(Frames.getGamersLink().getClass().getResource("/lib/images/icon-power-red-32x32.png")));
                     Frames.getGamersLink().modelo.setRowCount(0);   
                     Frames.getGamersLink().jL_files.setText("");
                     removeMenuGamersLinkStop();

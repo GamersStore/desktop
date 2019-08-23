@@ -143,7 +143,6 @@ public class GamersLink extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GamersLink");
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(934, 293));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -153,7 +152,7 @@ public class GamersLink extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jL_menu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jL_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-menu.png"))); // NOI18N
+        jL_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-menu-white-32x32.png"))); // NOI18N
         jL_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jL_menu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -163,7 +162,7 @@ public class GamersLink extends javax.swing.JFrame {
         jPanel2.add(jL_menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         icon_return.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_return.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-return-white-32x32.png"))); // NOI18N
+        icon_return.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-return-white-32x32.png"))); // NOI18N
         icon_return.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         icon_return.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -180,12 +179,12 @@ public class GamersLink extends javax.swing.JFrame {
         jP_bar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jL_minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-minimizar.png"))); // NOI18N
+        jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-minimizar-gray-32x32.png"))); // NOI18N
         jL_minimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jP_bar.add(jL_minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 40, 50));
 
         jL_cerrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-close.png"))); // NOI18N
+        jL_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-close-gray-32x32.png"))); // NOI18N
         jL_cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jP_bar.add(jL_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 0, 50, 50));
 
@@ -228,7 +227,7 @@ public class GamersLink extends javax.swing.JFrame {
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 40, 750, 200));
 
         jL_folder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jL_folder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-foldersearch_primary_32x32.png"))); // NOI18N
+        jL_folder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-foldersearch-primary-32x32.png"))); // NOI18N
         jL_folder.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jL_folder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -243,7 +242,7 @@ public class GamersLink extends javax.swing.JFrame {
         jPanel3.add(jL_directorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 470, 40));
 
         icon_power.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon-power-off-32x32.png"))); // NOI18N
+        icon_power.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-power-red-32x32.png"))); // NOI18N
         icon_power.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         icon_power.setPreferredSize(new java.awt.Dimension(100, 100));
         icon_power.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -409,12 +408,12 @@ public class GamersLink extends javax.swing.JFrame {
         if(User.getLogin())
         {
             Frames.showMenu_root();   
-            this.dispose();
+            Frames.disposeGamersLink();
         }
         else
         {
             Frames.showLogin();
-            this.dispose();
+            Frames.disposeGamersLink();
         }
     }//GEN-LAST:event_icon_returnMouseClicked
 
