@@ -426,16 +426,8 @@ public class GamersLink extends javax.swing.JFrame {
     }//GEN-LAST:event_icon_powerMouseClicked
 
     private void icon_returnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_returnMouseClicked
-        if(User.getLogin())
-        {
-            Frames.showMenu_root();   
-            Frames.disposeGamersLink();
-        }
-        else
-        {
-            Frames.showLogin();
-            Frames.disposeGamersLink();
-        }
+        Frames.showMenu_root();   
+        Frames.disposeGamersLink();
     }//GEN-LAST:event_icon_returnMouseClicked
 
     /**

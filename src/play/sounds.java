@@ -21,12 +21,10 @@ public class sounds
     public static void introPS1()
     {
         try
-        {
-            URL file = Config.getInstance().getClass().getResource("/lib/sounds/intro-ps1.wav");
-            
+        { 
             try
             {
-                audioInputStream = AudioSystem.getAudioInputStream(new File(file.getPath().replaceAll("%20", " ")));
+                audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Program Files (x86)\\GamersStore\\lib\\sounds\\intro-ps1.wav"));
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -54,11 +52,9 @@ public class sounds
     {
         try
         {
-            URL file = Config.getInstance().getClass().getResource("/lib/sounds/intro-ps3.wav");
-            
             try
             {
-                audioInputStream = AudioSystem.getAudioInputStream(new File(file.getPath().replaceAll("%20", " ")));
+                audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Program Files (x86)\\GamersStore\\lib\\sounds\\intro-ps3.wav"));
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

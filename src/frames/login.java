@@ -1,6 +1,6 @@
 package frames;
 
-import BaseDeDatos.conexion;
+import BaseDeDatos.sqlServer;
 import config.User;
 import config.Config;
 import config.Frames;
@@ -274,7 +274,7 @@ public class login extends javax.swing.JFrame
         {
             try
             {
-                conexion con = new conexion();
+                sqlServer con = new sqlServer();
                 Connection conexion = con.conectar();
                 
                 contraseña = funciones.MD5(contraseña);

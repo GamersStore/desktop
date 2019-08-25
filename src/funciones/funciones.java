@@ -1,11 +1,12 @@
 package funciones;
 
-
 import clases.infoFile;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,6 +28,51 @@ import java.util.regex.Pattern;
 
 public class funciones
 {
+    public static void ejecutarCMD(String cmd)
+    {
+        try
+        {
+            Process p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine())!= null)
+            {
+                System.out.println(line);
+            }
+            reader.close();
+        }
+        catch (IOException | InterruptedException e)
+        {
+            System.out.println(e);
+        }
+    }
+    
+    public static void ejecutarAsAdm(String file)
+    {
+        try
+        {
+            Runtime.getRuntime().exec("powershell.exe Start-Process '"+file+"' -verb RunAs");
+        }
+        catch (IOException ex)
+        {
+            System.out.println(ex);
+        }
+    }
+    
+    public static boolean isAdmin()
+    {
+        String groups[] = (new com.sun.security.auth.module.NTSystem()).getGroupIDs();
+        for (String group : groups)
+        {
+            if (group.equals("S-1-5-32-544"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public static String convertirBtoGB(long bytes)
     {
         long kb = bytes / 1024;
@@ -121,6 +167,26 @@ public class funciones
             return ""; // empty extension
         }
         return name.substring(lastIndexOf + 1);
+    }
+    
+    public static boolean makeCarpeta(String ruta)
+    {
+        File directorio = new File(ruta);
+        if(!directorio.exists())
+        {
+            if(directorio.mkdir())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return true;
+        }
     }
     
     public static void makeXMLGamersLink(String folder, int puerto, List<infoFile> File)

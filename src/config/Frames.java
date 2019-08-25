@@ -1,5 +1,6 @@
 package config;
 
+import BaseDeDatos.sqlServer;
 import GamersLink.GamersLink;
 import frames.login;
 import frames.menu_root;
@@ -73,14 +74,35 @@ public class Frames
     }
     public static void showMenu_root()
     {
-        Frames.getMenu_root().setVisible(true);
-        int sta = Frames.getMenu_root().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
-        Frames.getMenu_root().setVisible(true);
-        Frames.getMenu_root().setExtendedState(sta); 
-        Frames.getMenu_root().setAlwaysOnTop(true); 
-        Frames.getMenu_root().toFront(); 
-        Frames.getMenu_root().requestFocus(); 
-        Frames.getMenu_root().setAlwaysOnTop(false);
+        if(User.getLogin())
+        {
+            Frames.getMenu_root().setVisible(true);
+            int sta = Frames.getMenu_root().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
+            Frames.getMenu_root().setVisible(true);
+            Frames.getMenu_root().setExtendedState(sta); 
+            Frames.getMenu_root().setAlwaysOnTop(true); 
+            Frames.getMenu_root().toFront(); 
+            Frames.getMenu_root().requestFocus(); 
+            Frames.getMenu_root().setAlwaysOnTop(false);
+        }
+        else
+        {
+            if(new sqlServer().conectar() == null)
+            {
+                Frames.getMenu_root().setVisible(true);
+                int sta = Frames.getMenu_root().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
+                Frames.getMenu_root().setVisible(true);
+                Frames.getMenu_root().setExtendedState(sta); 
+                Frames.getMenu_root().setAlwaysOnTop(true); 
+                Frames.getMenu_root().toFront(); 
+                Frames.getMenu_root().requestFocus(); 
+                Frames.getMenu_root().setAlwaysOnTop(false);
+            }
+            else
+            {
+                Frames.showLogin();
+            }
+        }
     }
     public static void disposeMenu_root()
     {

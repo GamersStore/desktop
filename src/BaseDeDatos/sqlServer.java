@@ -1,11 +1,9 @@
 package BaseDeDatos;
 
 import static funciones.funciones.verificarInternet;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class conexion 
+public class sqlServer 
 {
     private static Connection conn = null;
     

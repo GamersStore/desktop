@@ -19,11 +19,6 @@ public class menu_root extends javax.swing.JFrame {
         Config.setControlBar(this, jP_bar, jL_minimizar, null, jL_cerrar);
         
         lbl_user.setText(User.getUsuario());
-        
-        if(!User.getLogin())
-        {
-            
-        }
     }
 
     /**

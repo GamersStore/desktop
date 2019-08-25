@@ -28,17 +28,20 @@ public class Config
         if(instanciaInit == null)
         {
             instanciaInit = new Config();
-            try {
-                instanciaInit.Notify();
-            } catch (AWTException ex) {
-                Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
         return instanciaInit;
     }
-    private static boolean config = false;
+    
+    private static boolean initNotify = false;
+    
+    public static int versionCompilacion = 1;
+    
+    public static String folderDownloadUpdate = "C:\\ProgramData\\GamersStore\\";
+    
+    public static String getFolderDownloadUpdate()
+    {
+        return folderDownloadUpdate;
+    }
     
     public static void setIcon(JFrame frame)
     {
@@ -163,7 +166,7 @@ public class Config
     
     public static void Notify() throws AWTException, InterruptedException
     {
-        if(config == false)
+        if(initNotify == false)
         {
             icono = new TrayIcon(Toolkit.getDefaultToolkit().getImage(Config.getInstance().getClass().getResource("/lib/images/icon-LogoGS-color-18x12.png")),"GamersStore",addMenuSalir());
 
@@ -191,12 +194,23 @@ public class Config
             });
             Thread.sleep(5000);
             
-            config = true;
+            initNotify = true;
         }
     }
     
     public static void addNotify(String Titulo, String Mensaje, MessageType Tipo)
     {
+        if(initNotify == false)
+        {
+            try
+            {
+                Notify();
+            }
+            catch(Exception e)
+            {
+            System.out.println(e);
+            }
+        }
         if(false)
         {
             icono.addActionListener(new ActionListener()
@@ -271,7 +285,6 @@ public class Config
         return version;
     }
     
-    public static int versionCompilacion = 1;
     public static void setVersionCompilacion(int versionCompilacion)
     {
         try
