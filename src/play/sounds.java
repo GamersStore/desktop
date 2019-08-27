@@ -24,7 +24,7 @@ public class sounds
         { 
             try
             {
-                audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Program Files (x86)\\GamersStore\\lib\\sounds\\intro-ps1.wav"));
+                audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Program Files (x86)\\GamersStore\\sounds\\intro-ps1.wav"));
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -54,7 +54,7 @@ public class sounds
         {
             try
             {
-                audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Program Files (x86)\\GamersStore\\lib\\sounds\\intro-ps3.wav"));
+                audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Program Files (x86)\\GamersStore\\sounds\\intro-ps3.wav"));
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

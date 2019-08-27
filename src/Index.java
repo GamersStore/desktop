@@ -7,6 +7,7 @@ import static funciones.funciones.ejecutarCMD;
 import java.awt.TrayIcon;
 import static funciones.funciones.getActivo;
 import static funciones.funciones.isAdmin;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,10 +15,29 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import play.sounds;
 
+
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+
 public class Index
 {   
     public static void main(String args[]) throws Exception
-    {
+    {   
         if(!isAdmin())
         {
             ejecutarAsAdm("C:\\Program Files (x86)\\GamersStore\\GamersStore.exe");
@@ -107,6 +127,8 @@ public class Index
                     if((int)resultLite1.getObject("Config") == 0)
                     {
                         ejecutarAsAdm("C:\\Program Files (x86)\\GamersStore\\addMenuGamersLink.bat");
+                        ejecutarAsAdm("C:\\Program Files (x86)\\GamersStore\\addFirewallGamersStore.bat");
+                        
                         stLite1 = conLiteC1.prepareStatement("UPDATE config SET config = 1 WHERE Id = 1");
                         stLite1.execute();
                     }
