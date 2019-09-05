@@ -42,7 +42,6 @@ public class GamersPlay extends javax.swing.JFrame {
     private long duracion = 0;
     private int tamJs = 200;
     
-    
     public GamersPlay()
     {
         initComponents();
@@ -107,13 +106,21 @@ public class GamersPlay extends javax.swing.JFrame {
             }
         );
         
-        player.getMediaPlayer().playMedia("http://dl.dropboxusercontent.com/s/3yifhb8tgsziyre/Godzilla.the.planet.eater.2018.1080p-dual-lat-cinecalidad.to.mp4?raw=1");    
-        //player.getMediaPlayer().playMedia("C:\\Users\\Luis Acxis\\Downloads\\video.mp4");    
-        player.getMediaPlayer().setVolume(vol);           
-        this.setTitle("GamersPlay: Godzilla");
-        player.getMediaPlayer().setBrightness(2f);
-        jL_play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-pause-white-32x32.png")));        
+       
         
+    }
+    
+    public void play(String url, String titulo)
+    {
+        if(url.length() != 0)
+        {
+            player.getMediaPlayer().playMedia(url);    
+            //player.getMediaPlayer().playMedia("C:\\Users\\Luis Acxis\\Downloads\\video.mp4");    
+            player.getMediaPlayer().setVolume(vol);           
+            this.setTitle("GamersPlay: "+titulo);
+            player.getMediaPlayer().setBrightness(2f);
+            jL_play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-pause-white-32x32.png")));            
+        }
     }
 
     /**
@@ -187,7 +194,7 @@ public class GamersPlay extends javax.swing.JFrame {
         jP_bar.add(jPanel2, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jL_minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jL_minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lib/images/icon-minimizar-gray-32x32.png"))); // NOI18N
@@ -224,7 +231,7 @@ public class GamersPlay extends javax.swing.JFrame {
         jP_control.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         jS_progreso.setBackground(new java.awt.Color(255, 255, 255));
         jS_progreso.setMinimum(1);
