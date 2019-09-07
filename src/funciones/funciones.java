@@ -73,6 +73,26 @@ public class funciones
         return false;
     }
     
+    public static String convertirSeg(int tsegundos)
+    {
+        int horas = (tsegundos / 3600);
+        int minutos = ((tsegundos-horas*3600)/60);
+        int segundos = tsegundos-(horas*3600+minutos*60);
+        
+        String Shoras = String.valueOf(horas);
+        String Sminutos = String.valueOf(minutos);
+        String Ssegundos = String.valueOf(segundos);
+        if(Sminutos.length() == 1)
+        {
+            Sminutos = "0"+Sminutos;
+        }
+        if(Ssegundos.length() == 1)
+        {
+            Ssegundos = "0"+Ssegundos;
+        }
+        return Shoras + ":" + Sminutos + ":" + Ssegundos;
+    }
+    
     public static String convertirBtoGB(long bytes)
     {
         long kb = bytes / 1024;

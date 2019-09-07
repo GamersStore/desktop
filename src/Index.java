@@ -3,21 +3,21 @@ import BaseDeDatos.sqlLite;
 import config.Config;
 import config.Frames;
 import static funciones.funciones.ejecutarAsAdm;
-import static funciones.funciones.ejecutarCMD;
 import java.awt.TrayIcon;
 import static funciones.funciones.getActivo;
 import static funciones.funciones.isAdmin;
 import java.sql.Connection;
+import java.sql.SQLException;
+import play.sounds;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import play.sounds;
 
 public class Index
 {   
     public static void main(String args[]) throws Exception
-    {
+    {   
         if(!isAdmin())
         {
             ejecutarAsAdm(Config.getDirInstall()+"GamersStore.exe");
