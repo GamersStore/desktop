@@ -20,7 +20,7 @@ public class Index
     {
         if(!isAdmin())
         {
-            ejecutarAsAdm("C:\\Program Files (x86)\\GamersStore\\GamersStore.exe");
+            ejecutarAsAdm(Config.getDirInstall()+"GamersStore.exe");
             System.exit(0);
         }
         
@@ -106,7 +106,7 @@ public class Index
                 {
                     if((int)resultLite1.getObject("Config") == 0)
                     {
-                        ejecutarAsAdm("C:\\Program Files (x86)\\GamersStore\\addMenuGamersLink.bat");
+                        ejecutarAsAdm(Config.getDirInstall()+"addMenuGamersLink.bat");
                         stLite1 = conLiteC1.prepareStatement("UPDATE config SET config = 1 WHERE Id = 1");
                         stLite1.execute();
                     }

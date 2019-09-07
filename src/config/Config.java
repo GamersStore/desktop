@@ -36,11 +36,11 @@ public class Config
     
     public static int versionCompilacion = 1;
     
-    public static String folderDownloadUpdate = "C:\\ProgramData\\GamersStore\\";
+    public static String dirInstall = "C:\\ProgramData\\GamersStore\\";
     
-    public static String getFolderDownloadUpdate()
+    public static String getDirInstall()
     {
-        return folderDownloadUpdate;
+        return dirInstall;
     }
     
     public static void setIcon(JFrame frame)

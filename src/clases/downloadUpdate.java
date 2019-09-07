@@ -67,7 +67,7 @@ public class downloadUpdate extends Thread
                         //Descarga de archivo
                         try
                         {
-                            if(makeCarpeta(Config.getFolderDownloadUpdate()))
+                            if(makeCarpeta(Config.getDirInstall()))
                             {
                                 URL url = new URL (instalador);
 
@@ -77,7 +77,7 @@ public class downloadUpdate extends Thread
                                 String nombre = instalador.substring((instalador.lastIndexOf("/")) + 1);
 
                                 InputStream is = urlCon.getInputStream();
-                                FileOutputStream fos = new FileOutputStream(Config.getFolderDownloadUpdate()+nombre);
+                                FileOutputStream fos = new FileOutputStream(Config.getDirInstall()+nombre);
 
                                 int tamArreglo = 1000;
                                 byte[] array = new byte[tamArreglo];
@@ -96,14 +96,14 @@ public class downloadUpdate extends Thread
                                 is.close();
                                 fos.close();
                                 
-                                ejecutarAsAdm(Config.getFolderDownloadUpdate()+nombre);
+                                ejecutarAsAdm(Config.getDirInstall()+nombre);
                                 
                                 System.exit(0);
                             }
                             else
                             {
                                 JOptionPane.showMessageDialog(null,"Ocurrio un error al tratar de descargar la actualizacion, El sistema intentara ejecutarse como administrador.");
-                                ejecutarAsAdm("C:\\Program Files (x86)\\GamersStore\\GamersStore.exe");
+                                ejecutarAsAdm(Config.getDirInstall()+"GamersStore.exe");
                                 System.exit(0);
                             }
                         }

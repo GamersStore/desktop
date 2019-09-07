@@ -1,5 +1,6 @@
 package BaseDeDatos;
 
+import config.Config;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,7 +10,7 @@ import javax.swing.JOptionPane;
 public class sqlLite
 {
     String fileName = "GamersStore.s3db";
-    String url = "C:\\Program Files (x86)\\GamersStore\\"+fileName;
+    String url = Config.getDirInstall()+fileName;
     private Connection conexion;
 
     //Metodo Conectar
