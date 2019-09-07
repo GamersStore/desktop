@@ -107,6 +107,7 @@ public class Index
                     if((int)resultLite1.getObject("Config") == 0)
                     {
                         ejecutarAsAdm(Config.getDirInstall()+"addMenuGamersLink.bat");
+                        ejecutarAsAdm(Config.getDirInstall()+"addFirewallGamersStore.bat");
                         stLite1 = conLiteC1.prepareStatement("UPDATE config SET config = 1 WHERE Id = 1");
                         stLite1.execute();
                     }

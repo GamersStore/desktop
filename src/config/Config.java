@@ -36,7 +36,7 @@ public class Config
     
     public static int versionCompilacion = 1;
     
-    public static String dirInstall = "C:\\ProgramData\\GamersStore\\";
+    public static String dirInstall = "C:\\Program Files\\GamersStore\\";
     
     public static String getDirInstall()
     {
