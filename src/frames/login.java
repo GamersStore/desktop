@@ -1,6 +1,6 @@
 package frames;
 
-import BaseDeDatos.sqlServer;
+import funciones.httpRequest;
 import config.User;
 import config.Config;
 import config.Frames;
@@ -10,13 +10,15 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.net.URI;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class login extends javax.swing.JFrame
 {
@@ -24,6 +26,8 @@ public class login extends javax.swing.JFrame
 
     Dimension screenSize;
     int xCenter, yCenter;
+    
+    public static httpRequest request = new httpRequest();
     
     public login()
     {
@@ -274,30 +278,27 @@ public class login extends javax.swing.JFrame
         {
             try
             {
-                sqlServer con = new sqlServer();
-                Connection conexion = con.conectar();
                 
                 contraseña = funciones.MD5(contraseña);
                 
-                PreparedStatement select = conexion.prepareStatement
-                (
-                    "SELECT Id, Nombre, Usuario, Correo, Cuenta_Id, Version_PKG FROM usuarios WHERE Correo = ? AND Contraseña = ? "
-                );
-                select.setString(1, correo);
-                select.setString(2, contraseña);
-                ResultSet result = select.executeQuery();
+                Map<String,Object> params = new LinkedHashMap<>();
+                params.put("correo", correo);
+                params.put("contraseña", contraseña);
                 
+                JSONObject json = request.execute("loginUser.php",params);                
                 boolean row = false;
-                while (result.next())
+                if(json.getInt("Resultados") > 0)
                 {
+                    JSONArray Datos = json.getJSONArray("Datos");
+                    
                     row = true;
                     
-                    String Id = (String)result.getObject("Id");
-                    String Nombre = (String)result.getObject("Nombre");
-                    String Usuario = (String)result.getObject("Usuario");
-                    String Correo = (String)result.getObject("Correo");
-                    int Cuenta_Id = Integer.parseInt(String.valueOf(result.getObject("Cuenta_Id")));
-                    String Version_PKG = (String)result.getObject("Version_PKG");                        
+                    String Id = Datos.getJSONObject(0).getString("Id");;
+                    String Nombre = Datos.getJSONObject(0).getString("Nombre");;
+                    String Usuario = Datos.getJSONObject(0).getString("Usuario");;
+                    String Correo = Datos.getJSONObject(0).getString("Correo");;
+                    int Cuenta_Id = Datos.getJSONObject(0).getInt("Cuenta_Id");
+                    String Version_PKG = Datos.getJSONObject(0).getString("Version_PKG");
 
                     User.setId(Id);
                     User.setNombre(Nombre);
@@ -327,9 +328,7 @@ public class login extends javax.swing.JFrame
                     jP_contraseña.requestFocus();
                 }
                 
-            }
-            catch (SQLException ex)
-            {
+            } catch (JSONException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

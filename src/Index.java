@@ -1,11 +1,12 @@
-import BaseDeDatos.httpRequest;
-import BaseDeDatos.sqlServer;
-import BaseDeDatos.sqlLite;
+import funciones.httpRequest;
+import DB.sqlLite;
 import config.Config;
 import config.Frames;
 import static funciones.funciones.ejecutarAsAdm;
 import java.awt.TrayIcon;
 import static funciones.funciones.getActivo;
+import static funciones.funciones.getVCompilacion;
+import static funciones.funciones.getVSoftware;
 import static funciones.funciones.isAdmin;
 import static funciones.funciones.verificarInternet;
 import java.sql.Connection;
@@ -14,84 +15,53 @@ import play.sounds;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import javax.swing.JOptionPane;
-import org.json.JSONObject;
+import org.json.JSONException;
 
 public class Index
 {   
+    public static boolean update = false;
+    public static httpRequest request = new httpRequest();
+    
     public static void main(String args[]) throws Exception
-    {   
+    {       
         if(!isAdmin())
         {
             ejecutarAsAdm(Config.getDirInstall()+"GamersStore.exe");
             System.exit(0);
         }
         
-        boolean update = false;
+        if(!getActivo(1750))
+        {
+            JOptionPane.showMessageDialog(null,"La aplicacion ya se encuentra en ejecución.");
+            System.exit(0);
+        }
         
         if(args.length > 0)
         {
             if(args[0].equals("GamersLink"))
             {
-                if(!getActivo(1750))
-                {
-                    JOptionPane.showMessageDialog(null,"La aplicacion ya se encuentra en ejecución.");
-                    System.exit(0);
-                }
                 if(!verificarInternet())
                 {
                     Frames.showGamersLink();
                 }
                 else
                 {
-                    sqlServer con = new sqlServer();
-                    Connection conexion = con.conectar();
-                    PreparedStatement select = conexion.prepareStatement
-                    (
-                        "SELECT Informacion FROM gamersstore WHERE Id = 6"
-                    );
-                    ResultSet result = select.executeQuery();
-                    while (result.next())
-                    {
-                        
-                        int VersionCompilacion = Integer.valueOf((String)result.getObject("Informacion"));
-                        
-                        if(VersionCompilacion > Config.getVersionCompilacion())
-                        {
-                            barProgress bar = new barProgress();
-                            bar.setVisible(true);
-                            
-                            update = true;
-                        }
-                    }
-
+                    verificarVCompilacion();
                     if(!update)
                     {
-                        select = conexion.prepareStatement
-                        (
-                            "SELECT Informacion FROM gamersstore WHERE Id = 5"
-                        );
-                        result = select.executeQuery();
-                        while (result.next())
-                        {
-                            String Version = (String)result.getObject("Informacion");
-                            Config.setVersion(Version);
-                        }
+                        getVSoftware();
 
-                        Frames.showGamersLink();   
-                    }
-                }
-                if(!update)
-                {
-                    //Set Carpeta e Init Server
-                    String folder = args[1];
-                    if(folder.length()!=0)
-                    {
-                        Frames.getGamersLink().folder = args[1];
-                        Frames.getGamersLink().setFolderLabel();
-                        Frames.getGamersLink().switchServer();
+                        Frames.showGamersLink();
+                        
+                        //Set Carpeta e Init Server
+                        String folder = args[1];
+                        if(folder.length()!=0)
+                        {
+                            Frames.getGamersLink().folder = args[1];
+                            Frames.getGamersLink().setFolderLabel();
+                            Frames.getGamersLink().switchServer();
+                        }
                     }
                 }
             }
@@ -125,92 +95,56 @@ public class Index
                 JOptionPane.showMessageDialog(null,ex.getMessage());
                 conLite1.cerrar();
             }
-        
-            if(!getActivo(1750))
+
+            if(!verificarInternet())
             {
-                JOptionPane.showMessageDialog(null,"La aplicacion ya se encuentra en ejecución.");
-                System.exit(0);
+                Config.addNotify("No se logro conectar con el servidor", "Verifica tu conexion a internet.\nSolo se ejecutaran las funciones Offline", TrayIcon.MessageType.WARNING);
+                Frames.showMenu_root();
             }
             else
             {
-    //            config.addNotify("Iniciando", "Cargando programa", TrayIcon.MessageType.INFO);
-                sqlServer con = new sqlServer();
-                if(con.conectar() == null)
+                verificarVCompilacion();
+                if(!update)
                 {
-                    Config.addNotify("No se logro conectar con el servidor", "Verifica tu conexion a internet.\nSolo se ejecutaran las funciones Offline", TrayIcon.MessageType.WARNING);
-                    Frames.showMenu_root();
-                }
-                else
-                {
-                    httpRequest request = new httpRequest();
-                    
-                    Map<String,Object> params = new LinkedHashMap<>();
-                    params.put("name", "luis");
-                    
-                    JSONObject json = request.execute("getVCompilacion.php", params);
-                    
-                    System.out.println("version de compilacion: " + json.getString("VCompilacion"));
-                    
-                    
-                    Connection conexion = con.conectar();
-                    PreparedStatement select = conexion.prepareStatement
-                    (
-                        "SELECT Informacion FROM gamersstore WHERE Id = 6"
-                    );
-                    ResultSet result = select.executeQuery();
-                    while (result.next())
+                    getVSoftware();
+                    sqlLite conLite2 = new sqlLite();
+                    Connection conLiteC2 = conLite2.conectar();
+                    ResultSet resultLite2 = null;
+                    try
                     {
-                        int VersionCompilacion = Integer.valueOf((String)result.getObject("Informacion"));
-                        if(VersionCompilacion > Config.getVersionCompilacion())
-                        {
-                            JOptionPane.showMessageDialog(null,"Actualiza GamersStore antes de continuar.");
-                            
-                            barProgress bar = new barProgress();
-                            bar.setVisible(true);
-                            
-                            update = true;
-                        }
-                    }
-                    
-                    if(!update)
-                    {
-                        select = conexion.prepareStatement
-                        (
-                            "SELECT Informacion FROM gamersstore WHERE Id = 5"
-                        );
-                        result = select.executeQuery();
-                        while (result.next())
-                        {
-                            String Version = (String)result.getObject("Informacion");
-                            Config.setVersion(Version);
-                        }
-
-                        sqlLite conLite2 = new sqlLite();
-                        Connection conLiteC2 = conLite2.conectar();
-                        ResultSet resultLite2 = null;
-                        try
-                        {
-                            PreparedStatement stLite2 = conLiteC2.prepareStatement("SELECT Config FROM config WHERE Id = 2");
-                            resultLite2 = stLite2.executeQuery();
-                            while (resultLite2.next())
-                            {   
-                                if((int)resultLite2.getObject("Config") == 1)
-                                {
-                                    sounds.introPS1();
-                                }
+                        PreparedStatement stLite2 = conLiteC2.prepareStatement("SELECT Config FROM config WHERE Id = 2");
+                        resultLite2 = stLite2.executeQuery();
+                        while (resultLite2.next())
+                        {   
+                            if((int)resultLite2.getObject("Config") == 1)
+                            {
+                                sounds.introPS1();
                             }
-                            conLite2.cerrar();
                         }
-                        catch (SQLException ex)
-                        {
-                            JOptionPane.showMessageDialog(null,ex.getMessage());
-                            conLite2.cerrar();
-                        }
-
-                        Frames.showLogin();
+                        conLite2.cerrar();
                     }
+                    catch (SQLException ex)
+                    {
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
+                        conLite2.cerrar();
+                    }
+
+                    Frames.showLogin();
                 }
             }
+        }
+    }
+    
+    public static void verificarVCompilacion() throws JSONException
+    {
+        if(getVCompilacion() > Config.getVersionCompilacion())
+        {
+            JOptionPane.showMessageDialog(null,"Actualiza GamersStore antes de continuar.");
+
+            barProgress bar = new barProgress();
+            bar.setVisible(true);
+
+            update = true;
         }
     }
 }

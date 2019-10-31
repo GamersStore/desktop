@@ -1,9 +1,9 @@
 package config;
 
-import BaseDeDatos.sqlServer;
 import GamersLink.GamersLink;
 import frames.login;
 import frames.menu_root;
+import static funciones.funciones.verificarInternet;
 import javax.swing.JFrame;
 
 
@@ -87,7 +87,7 @@ public class Frames
         }
         else
         {
-            if(new sqlServer().conectar() == null)
+            if(!verificarInternet())
             {
                 Frames.getMenu_root().setVisible(true);
                 int sta = Frames.getMenu_root().getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;

@@ -1,6 +1,7 @@
 package funciones;
 
 import clases.infoFile;
+import config.Config;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,9 +26,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.json.JSONException;
 
 public class funciones
 {
+    public static httpRequest request = new httpRequest();
+    
+    public static int getVCompilacion() throws JSONException
+    {
+        int VersionCompilacion = request.execute("getVCompilacion.php").getInt("VCompilacion");
+        return VersionCompilacion;
+    }
+    
+    public static void getVSoftware() throws JSONException
+    {
+        String Version = request.execute("getVSoftware.php").getString("VSoftware");
+        Config.setVersion(Version);
+    }
+    
     public static void ejecutarCMD(String cmd)
     {
         try
