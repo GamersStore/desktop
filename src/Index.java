@@ -1,3 +1,4 @@
+import BaseDeDatos.httpRequest;
 import BaseDeDatos.sqlServer;
 import BaseDeDatos.sqlLite;
 import config.Config;
@@ -6,13 +7,17 @@ import static funciones.funciones.ejecutarAsAdm;
 import java.awt.TrayIcon;
 import static funciones.funciones.getActivo;
 import static funciones.funciones.isAdmin;
+import static funciones.funciones.verificarInternet;
 import java.sql.Connection;
 import java.sql.SQLException;
 import play.sounds;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import org.json.JSONObject;
 
 public class Index
 {   
@@ -35,15 +40,14 @@ public class Index
                     JOptionPane.showMessageDialog(null,"La aplicacion ya se encuentra en ejecución.");
                     System.exit(0);
                 }
-                sqlServer con = new sqlServer();
-                if(con.conectar() == null)
+                if(!verificarInternet())
                 {
                     Frames.showGamersLink();
                 }
                 else
                 {
+                    sqlServer con = new sqlServer();
                     Connection conexion = con.conectar();
-
                     PreparedStatement select = conexion.prepareStatement
                     (
                         "SELECT Informacion FROM gamersstore WHERE Id = 6"
@@ -51,7 +55,9 @@ public class Index
                     ResultSet result = select.executeQuery();
                     while (result.next())
                     {
+                        
                         int VersionCompilacion = Integer.valueOf((String)result.getObject("Informacion"));
+                        
                         if(VersionCompilacion > Config.getVersionCompilacion())
                         {
                             barProgress bar = new barProgress();
@@ -136,8 +142,17 @@ public class Index
                 }
                 else
                 {
+                    httpRequest request = new httpRequest();
+                    
+                    Map<String,Object> params = new LinkedHashMap<>();
+                    params.put("name", "luis");
+                    
+                    JSONObject json = request.execute("getVCompilacion.php", params);
+                    
+                    System.out.println("version de compilacion: " + json.getString("VCompilacion"));
+                    
+                    
                     Connection conexion = con.conectar();
-
                     PreparedStatement select = conexion.prepareStatement
                     (
                         "SELECT Informacion FROM gamersstore WHERE Id = 6"

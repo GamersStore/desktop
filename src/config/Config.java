@@ -38,6 +38,8 @@ public class Config
     
     public static String dirInstall = "C:\\Program Files\\GamersStore\\";
     
+    public static String urlApi = "http://localhost/Paginas/gamersstore/api/desktop/";
+    
     public static String getDirInstall()
     {
         return dirInstall;
@@ -303,6 +305,11 @@ public class Config
     public static int getVersionCompilacion()
     {
         return versionCompilacion;
+    }
+    
+    public static String getUrlApi()
+    {
+        return urlApi;
     }
     
    public static void close(JFrame frame)
